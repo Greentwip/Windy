@@ -1,0 +1,121 @@
+Nana C++ Library Release Note
+Version: 1.1.3
+==============
+	* Fixed an issue of support of PNG palette color type
+	* Fixed an issue that missed array declaration in unique_ptr
+	* Fixed a crash caused by destroying inner_widget_notifier twice
+	* Fixed an issue that missed refresh in event handling
+
+Version: 1.1.2
+==============
+	* Fixed a compiling error when PNG is enabled
+	* Fixed an issue of bitmap 4-byte alignment format
+
+Version: 1.1.1
+==============
+Bugfix:
+	* Fixed a crash when destorying a widget with a place which has defined a split bar.
+	* Label workaround constructor
+
+Version: 1.1
+==============
+Bugfix:
+	* Fixed an audio_stream issue
+	* Fixed an issue that key_char may not be triggered under Linux
+	* Fixed a compiling error due to VC2015 issue
+	* Fixed a text_editor newline issue 
+	* Fixed several caret issues
+	* Fixed an infinite loop issue when pressing tab key if all tabstop widgets are invisible
+	* Fixed a charset issue on VC2015
+	* Fixed a crash error when click on an empty listbox category
+	* Fixed issues that caret and tab switch on invisible widgets
+	* Fixed a refreshing issue
+	* Fixed a menu image issue
+	* Fixed a crash when the size of label is empty and '\t' is contained
+	* Fixed some focus issues
+	* Fixed a crash in page down and home of a listbox with categories
+	* Fixed tracing the whole cattegory when selected
+Feature:
+	* Changed parameter type of click event from arg_mouse to arg_click
+	* image::paste may make a graphics if the graphics object is empty
+	* Decleared explicit conversion from point/size to rectangle
+	* Added the inline widget for listbox
+	* Added a new group widget
+	* Introduced a new progressbar::stop()
+	* Added std::filesystem
+	* Improved textbox's selection handling
+	* Improved textbox for selecting contents when focus is set
+	* Improved and introduced some new features for listbox
+	* Improved cursor move keys support in text editor
+
+Version: 1.0.2
+==============
+Bugfix:
+	* Fixed picture widget transparent image issue.
+	* Fixed some MinGW compiling errors.
+	* Fixed new line issue of text_editor.
+	* Fixed collocating a zero size placed widget.
+	* Fixed wrong position of splitter.
+	* Fixed a few minor inconsistencies in item listbox drawing.
+	* Fixed a crash error which occurs when deleting a window in its certain event handler.
+	* Fixed many listbox issues by qPCR4vir.
+	* Fixed no response of Delete Key for textbox.
+	* Fixed first keyword issue of textbox.
+	* Fixed wrong positions of menu and tooltip in secondary monitor.
+	* Fixed some issues of textbox and filebox.
+	* Fixed lookup error from GCC/MinGW by Jan.
+	* Fixed a false alarm of event memory leak.
+	* Fixed scroll don't get trigged in secondary monitor.
+	* Fixed menubar behavior issues.
+	* Fixed a crash when clear an empty/ordered listbox.
+	* Fixed a draw problem with item in listbox.
+	* Fixed a crash that caused by double-delete of an event handler.
+	* Fixed menu ESC issues.
+	* Fixed a weird behavior of textbox issue.
+	
+Feature:
+	* checkbox, panel and label have the same bgcolor as the owner.
+	* Added a new outline_size() method for root widget.
+	* Added TabStop+Shift to move the focus to previous window.
+	* Added navigate ordered listbox with Page Up/Down, HOME and End key.
+	* Many listbox improvements.
+	* Added copying a graphics object to the clipboard.
+	
+
+Version: 1.0.1
+==============
+Bugfix:
+	* Fixed some inputbox issues.
+	* Fixed an integer overflow issue that may rise a crash error.
+	* Fixed a slider precision issue.
+	* Fixed support of Clang by Ryan Gonzalez.
+	* Fixed an issue that interception of system keys stops responding these keys(Alt+F4,Alt+Space)
+
+Feature:
+	* Improved picture widget.
+	* Improved inputbox for picture display and new path.
+	* Added fps modifier for animation.
+	* Improved cmake configuration by Robert Hauck.
+
+
+Version: 1.0
+==============
+Bugfix:
+	* Fixed a listbox header display issue.
+	* Fixed a bground effect refresh issue.
+	* Fixed the textbox wrong caret position after resizing.
+	* Fixed some crash errors.
+
+Feature:
+	* Support of Clang/CMake
+	* A new fundamental type class color.
+	* New color schemes module.
+	* Multiple display monitors support interface.
+	* Highlighted text support for textbox.
+	* Added text_changed event for text widgets, e.g. combox, spinbox and textbox.
+	* Draw-through by GL/DX.
+	* Added new spinbox widget.
+	* Added new inputbox dialog.
+	* Event stop propagation.
+	* Added some interfaces to simplify code work.
+

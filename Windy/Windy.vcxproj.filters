@@ -1,0 +1,92 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="tools">
+      <UniqueIdentifier>{ac5c9dab-7876-49b8-87f3-06d9d2fc7bea}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools\crypto">
+      <UniqueIdentifier>{9968b486-e175-418a-ab12-9cb160cf572b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools\image">
+      <UniqueIdentifier>{86170454-7fd4-4a15-b622-b0b31b117365}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools\tmx">
+      <UniqueIdentifier>{204571c8-037b-443f-9a80-5e9a37cc1318}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools\number">
+      <UniqueIdentifier>{0b79f84c-eeb2-4c7e-9d14-46583327247a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools\memory">
+      <UniqueIdentifier>{ea5ef7a0-7dec-401f-9dbf-513f58695923}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="ReadMe.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="tools\crypto\sha256.hpp">
+      <Filter>tools\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="tools\image\resizer.hpp">
+      <Filter>tools\image</Filter>
+    </ClInclude>
+    <ClInclude Include="tools\tmx\tmx_converter.hpp">
+      <Filter>tools\tmx</Filter>
+    </ClInclude>
+    <ClInclude Include="tools\tmx\tilemap.hpp">
+      <Filter>tools\tmx</Filter>
+    </ClInclude>
+    <ClInclude Include="tools\tmx\tileset.hpp">
+      <Filter>tools\tmx</Filter>
+    </ClInclude>
+    <ClInclude Include="tools\tmx\tilelayer.hpp">
+      <Filter>tools\tmx</Filter>
+    </ClInclude>
+    <ClInclude Include="tools\number\uuid.hpp">
+      <Filter>tools\number</Filter>
+    </ClInclude>
+    <ClInclude Include="tools\number\digits.hpp">
+      <Filter>tools\number</Filter>
+    </ClInclude>
+    <ClInclude Include="tools\memory\mmap_allocator.hpp">
+      <Filter>tools\memory</Filter>
+    </ClInclude>
+    <ClInclude Include="tools\memory\mmap_pool.hpp">
+      <Filter>tools\memory</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="tools\tmx\tilemap.cpp">
+      <Filter>tools\tmx</Filter>
+    </ClCompile>
+    <ClCompile Include="tools\tmx\tileset.cpp">
+      <Filter>tools\tmx</Filter>
+    </ClCompile>
+    <ClCompile Include="tools\tmx\tmx_converter.cpp">
+      <Filter>tools\tmx</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="res\windy.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="res\windy.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+  </ItemGroup>
+</Project>
