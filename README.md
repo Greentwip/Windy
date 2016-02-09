@@ -42,7 +42,6 @@ If you're willing to port the toolset to another operating system take in consid
 * x64 is a must. Or have the solution for x86 and memory mapped files.
 
 ### TODO:
-* Automatic texture resizing for textures so that they could be divided by the tile size if they lack the proper dimensions.
 * Support conversion from indexed and RGB color spaces.
 
 ### 3rd parties

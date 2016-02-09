@@ -5,11 +5,17 @@
 
 #include "tmx_converter.hpp"
 
+#define png_infopp_NULL (png_infopp)NULL
+#define int_p_NULL (int*)NULL
+
 #include "boost/gil/image.hpp"
 #include "boost/gil/typedefs.hpp"
 #include "boost/gil/extension/io/png_io.hpp"
 #include "boost/gil/extension/numeric/sampler.hpp"
 #include "boost/gil/extension/numeric/resample.hpp"
+
+#undef png_infopp_NULL
+#undef int_p_NULL
 
 #include "tilemap.hpp"
 #include "tileset.hpp"
@@ -52,9 +58,8 @@ bool windy::tmx_converter::lookup(const boost::gil::image_view<boost::gil::rgba8
 
 	auto channels = boost::gil::num_channels<boost::gil::rgba8c_planar_loc_t>();
 	
-	ptrdiff_t data_length = a.width() * a.height() * channels;
+	ptrdiff_t data_length = a.width() * a.height() * channels.value;
 	storage.reserve(data_length);
- 
 	
 	boost::gil::for_each_pixel(a, PixelInserter(&storage));
 
@@ -99,44 +104,27 @@ int windy::tmx_converter::run(const std::vector<std::string>& args){
 
 	std::string raw_name = std::string(back.begin(), back.end() - 4);
 
+
+	auto image = std::make_shared<
 	boost::gil::image
 		<boost::gil::rgba8_pixel_t,
 		true,
-		mmap_allocator<unsigned char> > image;
+		mmap_allocator<unsigned char> > > ();
 
 	try {
-		boost::gil::png_read_image(source, image);
+		boost::gil::png_read_and_convert_image(source, *image);
 	} catch (boost::exception & ex) {
 		std::cerr << boost::diagnostic_information_what(ex) << std::endl;
 	}
 	
-	auto width = image.width();
-	auto height = image.height();
+	auto width = image->width();
+	auto height = image->height();
 
-	width = (unsigned int)std::ceil(double(width) / double(tile_size)) * tile_size;
-	height = (unsigned int)std::ceil(double(height) / double(tile_size)) * tile_size;
-	
 	tilemap map(raw_name,
-				width / tile_size, 
-				height / tile_size, 
-				tile_size,
-				texture_size);
-
-	/*	auto new_image = new Gdiplus::Bitmap(width, height);
-
-	{
-		auto graphics = std::unique_ptr<Gdiplus::Graphics>(Gdiplus::Graphics::FromImage(new_image));
-
-		graphics->DrawImage(image.get(),
-							0,
-							0,
-							image->GetWidth(),
-							image->GetHeight());
-
-	}
-
-	image = std::unique_ptr<Gdiplus::Bitmap>(new_image);*/
-
+		width / tile_size,
+		height / tile_size,
+		tile_size,
+		texture_size);
 
 	boost::gil::point2<ptrdiff_t> crop_location(0, 0);
 	boost::gil::point2<ptrdiff_t> crop_dimensions(map.tile_size, map.tile_size);
@@ -167,7 +155,7 @@ int windy::tmx_converter::run(const std::vector<std::string>& args){
 
 			unsigned long long tile_index = sorted_tiles + 1;
 
-			auto tile = boost::gil::subimage_view(boost::gil::const_view(image), crop_location, crop_dimensions);
+			auto tile = boost::gil::subimage_view(boost::gil::const_view(*image), crop_location, crop_dimensions);
 			
 			bool tile_exists = lookup(tile, tile_index);
 

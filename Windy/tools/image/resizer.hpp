@@ -1,11 +1,18 @@
 #include <vector>
 #include <string>
 
+
+#define png_infopp_NULL (png_infopp)NULL
+#define int_p_NULL (int*)NULL
+
 #include "boost/gil/image.hpp"
 #include "boost/gil/typedefs.hpp"
 #include "boost/gil/extension/io/png_io.hpp"
 #include "boost/gil/extension/numeric/sampler.hpp"
 #include "boost/gil/extension/numeric/resample.hpp"
+
+#undef png_infopp_NULL
+#undef int_p_NULL
 
 #include "boost/uuid/uuid.hpp"
 #include "boost/uuid/uuid_generators.hpp"
@@ -33,16 +40,23 @@ namespace windy {
 			mmap_allocator<unsigned char> > img;
 
 			try {
-				boost::gil::png_read_image(input, img);
+				boost::gil::png_read_and_convert_image(input, img);
 			}
 			catch (boost::exception & ex) {
 				std::cerr << boost::diagnostic_information_what(ex) << std::endl;
 			}
 
-			unsigned int scale = unsigned int(std::ceil(1920.00 / double(design_resolution)));
+			double scale = double(target_design_resolution) / double(design_resolution);
 
-			long long width = img.width() * scale;
-			long long height = img.height() * scale;
+			auto width = ptrdiff_t(std::ceil(long double(img.width()) * scale));
+			auto height = ptrdiff_t(std::ceil(long double(img.height()) * scale));
+
+			// this defaults to the minimum tile size we can process with good performance
+
+			auto tile_size = 8;
+
+			width = ptrdiff_t(std::ceil(long double(width) / double(tile_size)) * tile_size);
+			height = ptrdiff_t(std::ceil(long double(height) / double(tile_size)) * tile_size);
 
 			boost::gil::image
 				<boost::gil::rgba8_pixel_t,
