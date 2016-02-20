@@ -1,63 +1,30 @@
-/*
-  Native File Dialog
-
-  User API
-
-  http://www.frogtoss.com/labs
- */
-
-
-#ifndef _NFD_H
-#define _NFD_H
+#ifndef windy_dialogs
+#define windy_dialogs
 
 
 #include <stddef.h>
 #include <string>
+#include <vector>
 
-/* denotes UTF-8 char */
-typedef char nfdchar_t;
+enum dialog_operation {
+    dialog_error = 0,   // programmatic error 
+    dialog_success,     // user pressed okay, or successful return 
+    dialog_cancel       // user pressed cancel 
+};
 
-/* opaque data structure -- see NFD_PathSet_* */
-typedef struct {
-    nfdchar_t *buf;
-    size_t *indices; /* byte offsets into buf */
-    size_t count;    /* number of indices into buf */
-}nfdpathset_t;
+// single file open dialog 
+dialog_operation open_file_dialog(const std::vector<std::string>& filterList,
+								  const std::string& defaultPath,
+								  std::string& outPath);
 
-typedef enum {
-    NFD_ERROR,       /* programmatic error */
-    NFD_OKAY,        /* user pressed okay, or successful return */
-    NFD_CANCEL       /* user pressed cancel */
-}nfdresult_t;
+// single folder open dialog 
+dialog_operation open_folder_dialog(const std::string& defaultPath,
+								    std::string& outPath);
 
 
-/* nfd_<targetplatform>.c */
-
-/* single file open dialog */
-nfdresult_t NFD_OpenDialog( const nfdchar_t *filterList,
-                            const nfdchar_t *defaultPath,
-                            std::string& outPath );
-
-/* multiple file open dialog */
-nfdresult_t NFD_OpenDialogMultiple( const nfdchar_t *filterList,
-                                    const nfdchar_t *defaultPath,
-                                    nfdpathset_t *outPaths );
-
-/* save dialog */
-nfdresult_t NFD_SaveDialog( const nfdchar_t *filterList,
-                            const nfdchar_t *defaultPath,
-                            std::string& outPath );
-
-/* nfd_common.c */
-
-/* get last error -- set when nfdresult_t returns NFD_ERROR */
-const char *NFD_GetError( void );
-/* get the number of entries stored in pathSet */
-size_t      NFD_PathSet_GetCount( const nfdpathset_t *pathSet );
-/* Get the UTF-8 path at offset index */
-nfdchar_t  *NFD_PathSet_GetPath( const nfdpathset_t *pathSet, size_t index );
-/* Free the pathSet */
-void        NFD_PathSet_Free( nfdpathset_t *pathSet );
-
+// single file save dialog 
+dialog_operation save_file_dialog(const std::vector<std::string>& filterList,
+								  const std::string& defaultPath,
+								  std::string& outPath );
 
 #endif

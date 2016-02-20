@@ -16,12 +16,13 @@ public:
 			  const unsigned int& height) {
 		this->width = width;
 		this->height = height;
+		index_keys = std::vector<uint64_t>(this->width * this->height, 0);
 	}
 
 	unsigned int width;
 	unsigned int height;
 
-	std::pair<unsigned long long*, unsigned long long> index_keys;
+	std::vector<uint64_t> index_keys;
 };
 
 #endif

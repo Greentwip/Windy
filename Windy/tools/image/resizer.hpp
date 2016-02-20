@@ -1,3 +1,6 @@
+#ifndef windy_resizer
+#define windy_resizer 
+
 #include <vector>
 #include <string>
 
@@ -48,15 +51,15 @@ namespace windy {
 
 			double scale = double(target_design_resolution) / double(design_resolution);
 
-			auto width = ptrdiff_t(std::ceil(long double(img.width()) * scale));
-			auto height = ptrdiff_t(std::ceil(long double(img.height()) * scale));
+			auto width = uint64_t(std::ceil(long double(img.width()) * scale));
+			auto height = uint64_t(std::ceil(long double(img.height()) * scale));
 
 			// this defaults to the minimum tile size we can process with good performance
 
 			auto tile_size = 8;
 
-			width = ptrdiff_t(std::ceil(long double(width) / double(tile_size)) * tile_size);
-			height = ptrdiff_t(std::ceil(long double(height) / double(tile_size)) * tile_size);
+			width = uint64_t(std::ceil(long double(width) / double(tile_size)) * tile_size);
+			height = uint64_t(std::ceil(long double(height) / double(tile_size)) * tile_size);
 
 			boost::gil::image
 				<boost::gil::rgba8_pixel_t,
@@ -73,5 +76,6 @@ namespace windy {
 		}
 	};
 
-
 }
+
+#endif

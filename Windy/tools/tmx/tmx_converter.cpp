@@ -81,7 +81,7 @@ int windy::tmx_converter::run(const std::vector<std::string>& args){
 	std::vector<std::string> tokens;
 
 	std::string buffer;
-	for (auto character : output) {
+	for (auto character : source) {
 
 		if (character == '\\') {
 			tokens.push_back(buffer);
@@ -94,16 +94,9 @@ int windy::tmx_converter::run(const std::vector<std::string>& args){
 
 	tokens.push_back(buffer);
 
-	std::string out_path;
-
-	for (unsigned int i = 0; i < tokens.size() - 1; ++i) {
-		out_path = out_path + tokens[i] + "\\";
-	}
-
 	auto back = tokens.back();
 
 	std::string raw_name = std::string(back.begin(), back.end() - 4);
-
 
 	auto image = std::make_shared<
 	boost::gil::image
@@ -112,85 +105,159 @@ int windy::tmx_converter::run(const std::vector<std::string>& args){
 		mmap_allocator<unsigned char> > > ();
 
 	try {
-		boost::gil::png_read_and_convert_image(source, *image);
+		//boost::gil::png_read_and_convert_image(source, *image);
+		boost::gil::png_read_image(source, *image);
 	} catch (boost::exception & ex) {
 		std::cerr << boost::diagnostic_information_what(ex) << std::endl;
 	}
-	
-	auto width = image->width();
-	auto height = image->height();
-
-	tilemap map(raw_name,
-		width / tile_size,
-		height / tile_size,
-		tile_size,
-		texture_size);
-
-	boost::gil::point2<ptrdiff_t> crop_location(0, 0);
-	boost::gil::point2<ptrdiff_t> crop_dimensions(map.tile_size, map.tile_size);
 
 	{
 
-		boost::gil::rgba8_image_t empty_tile (map.tile_size, map.tile_size);
+		boost::gil::image<boost::gil::rgba8_pixel_t, true> empty_tile (tile_size, tile_size);
+
+		boost::gil::rgba8_pixel_t px(0, 0, 0, 0);
+
+		boost::gil::fill_pixels(boost::gil::view(empty_tile), px);
 
 		unsigned long long tile_index = 0;
 		lookup(boost::gil::const_view(empty_tile), tile_index);
 	}
 
-	unsigned long long sorted_tiles = 0;
-	ptrdiff_t tile_count = 0;
+	uint64_t image_h_tiles = uint64_t(long double(image->height()) / long double(tile_size));
+	uint64_t image_w_tiles = uint64_t(long double(image->width()) / long double(tile_size));
 
-	unsigned long long mb = 4096;
-	unsigned long long pot = 20;
+	uint64_t image_h = image_h_tiles * tile_size;
+	uint64_t image_w = image_w_tiles * tile_size;
 
-	unsigned long long res = (mb << pot);
+	uint64_t map_size_tiles = 128; // max tmx map size due to rendering limitations, 128 x 128 tiles
+	uint64_t map_size = map_size_tiles * tile_size;
 
-	windy::mmap_pool<unsigned long long> allocator(res);
+	uint64_t map_index_y = 0;
+	uint64_t map_index_x = 0;
 
-	for (unsigned int y = 0; y < height; y += map.tile_size) {
-		for (unsigned int x = 0; x < width; x += map.tile_size) {
+	uint64_t matrix_y = uint64_t(std::ceil(long double(image_h) / long double(map_size)));
+	uint64_t matrix_x = uint64_t(std::ceil(long double(image_w) / long double(map_size)));
 
-			crop_location.x = x;
-			crop_location.y = y;
+	std::vector<std::shared_ptr<tileset> > tilesets;
 
-			unsigned long long tile_index = sorted_tiles + 1;
+	boost::gil::point2<ptrdiff_t> crop_location(0, 0);
+	boost::gil::point2<ptrdiff_t> crop_dimensions(tile_size, tile_size);
 
-			auto tile = boost::gil::subimage_view(boost::gil::const_view(*image), crop_location, crop_dimensions);
-			
-			bool tile_exists = lookup(tile, tile_index);
+	uint64_t sorted_tiles = 0;
+	
+	for (uint64_t map_y = 0; map_y < matrix_y; ++map_y) {
+		for (uint64_t map_x = 0; map_x < matrix_x; ++map_x) {
+			tilemap map(raw_name, map_size_tiles, map_size_tiles, tile_size, texture_size);
+			uint64_t tile_count = 0;
 
-			if (!tile_exists) {
+			for (uint64_t tile_y = map_y * map_size_tiles; 
+				 tile_y < (map_y * map_size_tiles) + map_size_tiles;
+				 ++tile_y) {
 
-				if ((sorted_tiles % (map.matrix_size * map.matrix_size)) == 0) {
-					// time for another tileset
-					map.push_tileset(tile_index);
+				for (uint64_t tile_x = map_x * map_size_tiles; 
+					 tile_x < (map_x * map_size_tiles) + map_size_tiles;
+					 ++tile_x) {
+					
+					uint64_t tile_index = sorted_tiles + 1;
+
+					if (tile_y < image_h_tiles && tile_x < image_w_tiles) {
+						// exists inside the texture bounds
+						crop_location.y = tile_y * tile_size;
+						crop_location.x = tile_x * tile_size;
+
+						auto tile =
+							boost::gil::subimage_view(boost::gil::const_view(*image),
+								crop_location,
+								crop_dimensions);
+
+						bool computed_tile = lookup(tile, tile_index);
+
+						if (!computed_tile) { // this is a new-uncomputed tile, let's add it
+
+							windy::tileset* tileset = nullptr;
+
+							if ((sorted_tiles % (map._matrix_size * map._matrix_size)) == 0) {
+								// time for another tileset
+								tilesets.push_back
+									(std::make_shared<class tileset>
+										(tile_index,
+											map._tile_size,
+											map._margin,
+											map._spacing,
+											map._matrix_size,
+											map._texture_size));
+
+								tileset = tilesets.back().get();
+
+							}
+
+							tileset = tilesets.back().get();
+
+							++sorted_tiles;
+
+							tileset->blit_tile(tile);
+
+						}
+
+					} else {
+						// does not exist inside the texture bounds
+						tile_index = 0;
+					}
+
+
+					uint64_t largest_first_gid = 0;
+					std::shared_ptr<class tileset> target_tileset = nullptr; 
+
+					for (uint64_t i = 0; i < tilesets.size(); ++i) {
+						auto tileset = tilesets[i];
+
+						if (tile_index >= tileset->first_gid) {
+							if (tileset->first_gid > largest_first_gid) {
+								largest_first_gid = tileset->first_gid;
+								target_tileset = tileset;
+							}
+						}
+					}
+
+					if (target_tileset != nullptr) {
+
+						if (map._tile_layers.find(target_tileset) == map._tile_layers.end()) {
+							map._tile_layers[target_tileset] = 
+								std::make_shared<tilelayer>(map._width, map._height);
+						}
+
+						map._tile_layers[target_tileset]->index_keys[tile_count] = tile_index;
+
+					} 
+
+					++tile_count;
+
 				}
-
-				auto tileset = map.current_tileset();
-
-				++sorted_tiles;
-
-				tileset->blit_tile(tile);
-
 			}
 
-
-			++tile_count;
-
-			auto idx = allocator.allocate(sizeof(unsigned long long));
-
-			memcpy(idx, &tile_index, sizeof(unsigned long long));
+			map._tile_sets = tilesets;
+			map.build_tmx(output, std::to_string(map_y) + "_" + std::to_string(map_x));
 		}
 	}
 
-	map.tile_layer->index_keys.first = allocator.data();
-	map.tile_layer->index_keys.second = tile_count;
-
 	computed_hashes.clear();
 
-	map.build_tmx(out_path);
+	for (uint64_t i = 0; i < tilesets.size(); ++i) {
 
-	allocator.cleanup();
+		auto tileset = tilesets[i].get();
+
+		tileset->extrude();
+
+		std::string texture_path = output +
+			raw_name +
+			"_bank_" +
+			std::to_string(i) +
+			".png";
+
+		tileset->save(texture_path);
+
+	}
+
 
 	return 0;  
 }

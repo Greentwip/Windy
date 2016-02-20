@@ -141,12 +141,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="..\..\source\dialogs_common.cpp" />
     <ClCompile Include="..\..\source\dialogs_windows.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\include\internal\dialogs.hpp" />
-    <ClInclude Include="..\..\include\internal\dialogs_common.hpp" />
     <ClInclude Include="..\..\include\open\open.hpp" />
     <ClInclude Include="..\..\include\save\save.hpp" />
   </ItemGroup>

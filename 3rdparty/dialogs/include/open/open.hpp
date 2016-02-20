@@ -2,6 +2,7 @@
 #define windy_dialog_open
 
 #include <functional>
+#include <vector>
 #include <string>
 
 #include "internal/dialogs_common.hpp"
@@ -22,19 +23,35 @@ public:
 		on_error_callback = [](const std::string&) {};
 	}
 
-	void show(const std::string& filter_list) {
+	void show() {
 		std::string result_path;
 
-		nfdresult_t result = NFD_OpenDialog(filter_list.c_str(), NULL, result_path);
+		dialog_operation result = open_folder_dialog("", result_path);
 
-		if (result == NFD_OKAY) {
+		if (result == dialog_operation::dialog_success) {
 			on_open_callback(result_path);
 		}
-		else if (result == NFD_CANCEL) {
+		else if (result == dialog_operation::dialog_cancel) {
 			on_cancel_callback();
 		}
 		else {
-			on_error_callback(NFD_GetError());
+			on_error_callback("Error");
+		}
+	}
+
+	void show(const std::vector<std::string>& filter_list) {
+		std::string result_path;
+
+		dialog_operation result = open_file_dialog(filter_list, "", result_path);
+
+		if (result == dialog_operation::dialog_success) {
+			on_open_callback(result_path);
+		}
+		else if (result == dialog_operation::dialog_cancel) {
+			on_cancel_callback();
+		}
+		else {
+			on_error_callback("Error");
 		}
 	}
 

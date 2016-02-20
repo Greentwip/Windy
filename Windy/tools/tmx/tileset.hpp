@@ -29,6 +29,10 @@ public:
 	void save(const std::string& path);
 
 private:
+	unsigned int validate_tileset();
+
+
+private:
 	unsigned int column_index;
 	unsigned int row_index;
 

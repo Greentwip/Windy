@@ -27,14 +27,8 @@
     <ClCompile Include="..\..\source\dialogs_windows.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\source\dialogs_common.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="..\..\include\internal\dialogs_common.hpp">
-      <Filter>Header Files\internal</Filter>
-    </ClInclude>
     <ClInclude Include="..\..\include\internal\dialogs.hpp">
       <Filter>Header Files\internal</Filter>
     </ClInclude>

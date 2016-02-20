@@ -3,21 +3,21 @@
 
 The usage is pretty simple, compile with Visual Studio 2015, run and choose among the two options, resize and tmx.
 
+### For splitting:
+Specify the matrix that you like for your image to be split and choose a folder.
+
 ### For resize:
 You must specify the design resolution width that was used to draw the texture you're planning to resize, the resize will be done in a design resolution - 1080p ratio.
 
 1920 / design resolution width.
 
-Samples for resize will be uploaded soon.
-
 ### For tmx:
 Specify the tile size and the texture you're planning to convert into a TMX map.
 
-Try to keep it as low as 8 x 8 since that will generate smaller textures, remember, the bigger the tile size the more output textures you'll get and the tmx file will be really small since each tile represents big chunks.
+Clean your alpha channels so that they are rgb(0, 0, 0), otherwise the tool will create
+an empty tile for every rgb tile that is completely transparent.
 
-The smaller the tile size the less output textures you'll get since this perfect-index the textures and the tmx map will be bigger.
-
-It is upon your implementation and what do you want to achieve, smaller tile sizes mean more tmx data and also increase loading times.
+You need to specify a folder because it will split in many tmx maps (this is to help the renderers that have limitations over the amount of tiles that can be drawn, usually it is 128x128 tiles).
 
 ### In general:
 Windy creates uncompressed files from your texture in your temp directory and file mappings for processing the data, take in consideration that you have enough hard drive space to perform the operations, a 70k x 10k texture will use about 2 GB of hard disk drive for the uncompressed texture and about 1 GB for the tile data operations. Processing of a 20k resolution texture as the former will take about 1 minute to be converted into a tmx map.

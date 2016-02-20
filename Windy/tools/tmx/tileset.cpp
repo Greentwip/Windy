@@ -27,6 +27,8 @@ windy::tileset::tileset(const unsigned int& first_gid,
 	this->matrix_size = matrix_size;
 	this->texture_size = texture_size;
 
+	unsigned int validation = validate_tileset();
+
 	texture = std::make_unique<boost::gil::image<boost::gil::rgba8c_planar_loc_t, true> >
 		(this->texture_size, this->texture_size);
 	
@@ -111,3 +113,23 @@ void windy::tileset::extrude() {
 void windy::tileset::save(const std::string& path) {
 	boost::gil::png_write_view(path, boost::gil::const_view(*texture));
 }
+
+unsigned int windy::tileset::validate_tileset() {
+
+	// a suitable texture is one of pot size that can be divided by tile_size
+	// a suitable tile_size is one of pot size too
+	assert(this->texture_size % this->tile_size == 0);
+
+	unsigned int spaced_tile_size = this->tile_size + spacing;
+
+	this->matrix_size = (unsigned int)std::floor(double(this->texture_size) / double(spaced_tile_size));
+
+	// tilemap textures can't have 0 tiles, (tile_size == texture_size would be common here)
+	assert(matrix_size != 0);
+
+	// the margin must be an even number
+	assert((this->texture_size - spaced_tile_size * this->matrix_size) % 2 == 0);
+
+	return (this->texture_size - spaced_tile_size * this->matrix_size) / 2;
+};
+
