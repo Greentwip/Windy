@@ -19,9 +19,6 @@
     <Filter Include="tools\crypto">
       <UniqueIdentifier>{9968b486-e175-418a-ab12-9cb160cf572b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="tools\image">
-      <UniqueIdentifier>{86170454-7fd4-4a15-b622-b0b31b117365}</UniqueIdentifier>
-    </Filter>
     <Filter Include="tools\tmx">
       <UniqueIdentifier>{204571c8-037b-443f-9a80-5e9a37cc1318}</UniqueIdentifier>
     </Filter>
@@ -31,8 +28,11 @@
     <Filter Include="tools\memory">
       <UniqueIdentifier>{ea5ef7a0-7dec-401f-9dbf-513f58695923}</UniqueIdentifier>
     </Filter>
+    <Filter Include="tools\image">
+      <UniqueIdentifier>{cc4fe5ab-b585-4fc7-b1df-05b96f17bd26}</UniqueIdentifier>
+    </Filter>
     <Filter Include="tools\image\structures">
-      <UniqueIdentifier>{5e619068-e0a0-4af4-9029-bbd5e7e09286}</UniqueIdentifier>
+      <UniqueIdentifier>{d24680e6-2cc4-476c-8eab-e224b8945c38}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -41,9 +41,6 @@
   <ItemGroup>
     <ClInclude Include="tools\crypto\sha256.hpp">
       <Filter>tools\crypto</Filter>
-    </ClInclude>
-    <ClInclude Include="tools\image\resizer.hpp">
-      <Filter>tools\image</Filter>
     </ClInclude>
     <ClInclude Include="tools\tmx\tmx_converter.hpp">
       <Filter>tools\tmx</Filter>
@@ -69,13 +66,16 @@
     <ClInclude Include="tools\memory\mmap_pool.hpp">
       <Filter>tools\memory</Filter>
     </ClInclude>
-    <ClInclude Include="tools\image\cropper.hpp">
-      <Filter>tools\image</Filter>
-    </ClInclude>
     <ClInclude Include="tools\image\merger.hpp">
       <Filter>tools\image</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\..\Source\Repos\Windy\Windy\tools\image\structures\wxt.hpp">
+    <ClInclude Include="tools\image\resizer.hpp">
+      <Filter>tools\image</Filter>
+    </ClInclude>
+    <ClInclude Include="tools\image\cropper.hpp">
+      <Filter>tools\image</Filter>
+    </ClInclude>
+    <ClInclude Include="tools\image\structures\wxt.hpp">
       <Filter>tools\image\structures</Filter>
     </ClInclude>
   </ItemGroup>

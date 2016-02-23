@@ -26,7 +26,7 @@ public:
 	void show(const std::vector<std::string>& filter_list) {
 		std::string result_path;
 
-		dialog_operation result = save_file_dialog(filter_list, NULL, result_path);
+		dialog_operation result = save_file_dialog(filter_list, "", result_path);
 
 		if (result == dialog_operation::dialog_success) {
 			on_save_callback(result_path);
