@@ -39,7 +39,7 @@ namespace windy {
 			std::vector<std::string> tokens;
 
 			std::string buffer;
-			for (auto character : output) {
+			for (auto character : input) {
 
 				if (character == '\\') {
 					tokens.push_back(buffer);
@@ -83,16 +83,21 @@ namespace windy {
 					mmap_allocator<unsigned char> > img_segment;
 				try {
 
+					boost::filesystem::path p(input);
+
+					auto directory = p.parent_path();
+
 					auto segment_path = raw_name + 
 								"_" + 
-								std::to_string(segment.idx_x()) + 
-								"_" + 
 								std::to_string(segment.idx_y()) + 
+								"_" + 
+								std::to_string(segment.idx_x()) + 
 								".png";
+
+					directory /= segment_path;
 					
-					boost::gil::png_read_and_convert_image(segment_path, img_segment);
-				}
-				catch (boost::exception & ex) {
+					boost::gil::png_read_and_convert_image(directory.string(), img_segment);
+				}	catch (boost::exception & ex) {
 					std::cerr << boost::diagnostic_information_what(ex) << std::endl;
 				}
 
