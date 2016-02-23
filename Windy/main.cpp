@@ -21,7 +21,7 @@
 class app {
 public:
 
-	app() :_form("Windy") {
+	app() :_form("Windy", 300, 300) {
 #if defined(NANA_WINDOWS)
 		nana::API::window_icon(*_form.get_window(), nana::paint::image(STR("res/windy.ico")));
 #else
