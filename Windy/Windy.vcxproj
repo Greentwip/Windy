@@ -166,7 +166,10 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="..\..\..\Source\Repos\Windy\Windy\tools\image\structures\wxt.hpp" />
     <ClInclude Include="tools\crypto\sha256.hpp" />
+    <ClInclude Include="tools\image\cropper.hpp" />
+    <ClInclude Include="tools\image\merger.hpp" />
     <ClInclude Include="tools\image\resizer.hpp" />
     <ClInclude Include="tools\memory\mmap_allocator.hpp" />
     <ClInclude Include="tools\memory\mmap_pool.hpp" />

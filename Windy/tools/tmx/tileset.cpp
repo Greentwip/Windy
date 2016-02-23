@@ -41,8 +41,6 @@ void windy::tileset::blit_tile(const boost::gil::image_view<boost::gil::rgba8c_p
 	boost::gil::point2<ptrdiff_t> tile_location(0, 0);
 	boost::gil::point2<ptrdiff_t> tile_dimensions(this->tile_size, this->tile_size);
 
-	
-
 	tile_location.x = this->column_index * this->tile_size;
 	tile_location.y = this->row_index * this->tile_size;
 

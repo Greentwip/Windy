@@ -20,7 +20,8 @@ namespace windy {
 		enum input_constraints {
 			text = 0,
 			number,
-			pot_number
+			pot_number, 
+			no_input
 		};
 
 		functional_form(const std::string& caption,
@@ -79,6 +80,10 @@ namespace windy {
 			textbox->caption(text_caption);
 			button->caption(button_caption);
 
+			 if (constraints == input_constraints::no_input) {
+				 textbox->enabled(false);
+			 }
+
 			auto constraints_wrapper = [this, constraints, textbox, function]() {
 				auto nana_str = textbox->caption();
 				std::string caption(nana_str.begin(),
@@ -100,8 +105,7 @@ namespace windy {
 						validated = true;
 					}
 
-				}
-				else {
+				} else {
 					validated = true;
 				}
 

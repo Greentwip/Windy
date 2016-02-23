@@ -3,8 +3,11 @@
 
 The usage is pretty simple, compile with Visual Studio 2015, run and choose among the two options, resize and tmx.
 
-### For splitting:
-Specify the matrix that you like for your image to be split and choose a folder.
+### For split:
+Specify the matrix that you like for your image to be split and choose a folder, a wxt file will be saved with the matrix information.
+
+### For merge:
+Select a wxt file created with the split tool and ensure all the images from the matrix are contained in the same folder as the wxt file.
 
 ### For resize:
 You must specify the design resolution width that was used to draw the texture you're planning to resize, the resize will be done in a design resolution - 1080p ratio.
@@ -36,7 +39,7 @@ If you're willing to port the toolset to another operating system take in consid
 
 * Boost needs to be implemented with some sort of automated script; by the moment we use precompiled libraries.  
 * The numeric extension for Boost was modified so that it could accept large texture dimensions, stick to it, make a patch for the sampler.
-* From Boost we use: system, filesystem, and iostreams as compiled libraries, everything else is header-only, like lexical_cast, uuid and gil.
+* From Boost we use: system, filesystem, serialization, and iostreams as compiled libraries, everything else is header-only, like lexical_cast, uuid and gil.
 * File dialogs will work with any platform as long as we are able to improve the library.
 * C++14 is required.
 * x64 is a must. Or have the solution for x86 and memory mapped files.
@@ -49,5 +52,4 @@ If you're willing to port the toolset to another operating system take in consid
 * [nana](http://www.nanapro.org)
 * [libpng](http://libpng.org/pub/png/libpng.html)
 * [zlib](http://zlib.net/)
-* [nfd](https://github.com/mlabbe/nativefiledialog)
 * [XmlWriter](http://www.codeproject.com/Articles/5588/Simple-C-class-for-XML-writing)

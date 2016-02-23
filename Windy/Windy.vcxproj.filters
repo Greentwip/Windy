@@ -31,6 +31,9 @@
     <Filter Include="tools\memory">
       <UniqueIdentifier>{ea5ef7a0-7dec-401f-9dbf-513f58695923}</UniqueIdentifier>
     </Filter>
+    <Filter Include="tools\image\structures">
+      <UniqueIdentifier>{5e619068-e0a0-4af4-9029-bbd5e7e09286}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -65,6 +68,15 @@
     </ClInclude>
     <ClInclude Include="tools\memory\mmap_pool.hpp">
       <Filter>tools\memory</Filter>
+    </ClInclude>
+    <ClInclude Include="tools\image\cropper.hpp">
+      <Filter>tools\image</Filter>
+    </ClInclude>
+    <ClInclude Include="tools\image\merger.hpp">
+      <Filter>tools\image</Filter>
+    </ClInclude>
+    <ClInclude Include="..\..\..\Source\Repos\Windy\Windy\tools\image\structures\wxt.hpp">
+      <Filter>tools\image\structures</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

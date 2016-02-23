@@ -24,6 +24,9 @@
 
 #include "tools/memory/mmap_allocator.hpp"
 
+#include "tools/image/structures/wxt.hpp"
+
+
 namespace windy {
 
 	class cropper {
@@ -75,7 +78,14 @@ namespace windy {
 			boost::gil::point2<ptrdiff_t>
 				tile_dimensions(std::ceil(img.width() / num_columns), 
 								std::ceil(img.height() / num_rows));
-			
+
+			auto wxt_output_path = boost::filesystem::path(output);
+
+			wxt_output_path /= raw_name + ".wxt";
+
+			// make an archive
+			wxt_image wxt_container(img.width(), img.height());
+
 			for (uint64_t y = 0; y < num_rows; ++y) {
 				for (uint64_t x = 0; x < num_columns; ++x) {
 					
@@ -101,19 +111,27 @@ namespace windy {
 					auto view = boost::gil::subimage_view(boost::gil::view(img), tile_location, tile_dimensions);
 					boost::gil::copy_pixels(view, boost::gil::view(tile));
 
-					auto output_path = boost::filesystem::path(output);
+					auto texture_output_path = boost::filesystem::path(output);
 
-					output_path /= std::string(raw_name + 
+					texture_output_path /= std::string(raw_name +
 												"_" + 
 												std::to_string(y) + 
 												"_" +
 												std::to_string(x) + 
 												".png");
 
-					boost::gil::png_write_view(output_path.string(), boost::gil::const_view(tile));
+					wxt_segment wxt_segment(x, y, tile_location.x, tile_location.y);
+
+					wxt_container.add_segment(wxt_segment);
+
+					boost::gil::png_write_view(texture_output_path.string(), boost::gil::const_view(tile));
 
 				}
 			}
+
+			std::ofstream ofs(wxt_output_path.string());
+			boost::archive::text_oarchive oa(ofs);
+			oa << wxt_container;
 
 			return 0;
 		}
