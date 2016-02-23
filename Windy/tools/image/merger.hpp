@@ -39,7 +39,7 @@ namespace windy {
 			std::vector<std::string> tokens;
 
 			std::string buffer;
-			for (auto character : input) {
+			for (auto character : output) {
 
 				if (character == '\\') {
 					tokens.push_back(buffer);

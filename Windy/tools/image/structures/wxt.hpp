@@ -43,6 +43,8 @@ namespace windy {
 		}
 
 		wxt_segment(const wxt_segment& other) {
+			this->_idx_x = other._idx_x;
+			this->_idx_y = other._idx_y;
 			this->_x = other._x;
 			this->_y = other._y;
 		}
