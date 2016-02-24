@@ -44,10 +44,20 @@ struct PixelInserter {
 	std::vector<unsigned char>* storage;
 	PixelInserter(std::vector<unsigned char>* s) : storage(s) {}
 	void operator()(boost::gil::rgba8_pixel_t p) const {
-		storage->push_back(boost::gil::at_c<0>(p));
-		storage->push_back(boost::gil::at_c<1>(p));
-		storage->push_back(boost::gil::at_c<2>(p));
-		storage->push_back(boost::gil::at_c<3>(p));
+
+		auto alpha = boost::gil::at_c<3>(p);
+
+		if (alpha) {
+			storage->push_back(boost::gil::at_c<0>(p));
+			storage->push_back(boost::gil::at_c<1>(p));
+			storage->push_back(boost::gil::at_c<2>(p));
+			storage->push_back(alpha);
+		} else {
+			storage->push_back(0);
+			storage->push_back(0);
+			storage->push_back(0);
+			storage->push_back(0);
+		}
 	}
 };
 
