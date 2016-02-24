@@ -17,9 +17,6 @@ You must specify the design resolution width that was used to draw the texture y
 ### For tmx:
 Specify the tile size and the texture you're planning to convert into a TMX map.
 
-Clean your alpha channels so that they are rgb(0, 0, 0), otherwise the tool will create
-an empty tile for every rgb tile that is completely transparent.
-
 You need to specify a folder because it will split in many tmx maps (this is to help the renderers that have limitations over the amount of tiles that can be drawn, usually it is 128x128 tiles).
 
 ### In general:
