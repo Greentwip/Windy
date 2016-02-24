@@ -44,6 +44,21 @@ struct PixelInserter {
 	std::vector<unsigned char>* storage;
 	PixelInserter(std::vector<unsigned char>* s) : storage(s) {}
 	void operator()(boost::gil::rgba8_pixel_t p) const {
+
+/*		auto alpha = boost::gil::at_c<3>(p);
+
+		if (alpha) {
+			storage->push_back(boost::gil::at_c<0>(p));
+			storage->push_back(boost::gil::at_c<1>(p));
+			storage->push_back(boost::gil::at_c<2>(p));
+			storage->push_back(alpha);
+		} else {
+			storage->push_back(0);
+			storage->push_back(0);
+			storage->push_back(0);
+			storage->push_back(0);
+		}*/
+
 		storage->push_back(boost::gil::at_c<0>(p));
 		storage->push_back(boost::gil::at_c<1>(p));
 		storage->push_back(boost::gil::at_c<2>(p));
@@ -111,9 +126,9 @@ int windy::tmx_converter::run(const std::vector<std::string>& args){
 		std::cerr << boost::diagnostic_information_what(ex) << std::endl;
 	}
 
-	{
+	boost::gil::image<boost::gil::rgba8_pixel_t, true> empty_tile(tile_size, tile_size);
 
-		boost::gil::image<boost::gil::rgba8_pixel_t, true> empty_tile (tile_size, tile_size);
+	{
 
 		boost::gil::rgba8_pixel_t px(0, 0, 0, 0);
 
@@ -123,8 +138,8 @@ int windy::tmx_converter::run(const std::vector<std::string>& args){
 		lookup(boost::gil::const_view(empty_tile), tile_index);
 	}
 
-	uint64_t image_h_tiles = uint64_t(long double(image->height()) / long double(tile_size));
-	uint64_t image_w_tiles = uint64_t(long double(image->width()) / long double(tile_size));
+	uint64_t image_h_tiles = uint64_t(std::ceil(long double(image->height()) / long double(tile_size)));
+	uint64_t image_w_tiles = uint64_t(std::ceil(long double(image->width()) / long double(tile_size)));
 
 	uint64_t image_h = image_h_tiles * tile_size;
 	uint64_t image_w = image_w_tiles * tile_size;
@@ -165,10 +180,42 @@ int windy::tmx_converter::run(const std::vector<std::string>& args){
 						crop_location.y = tile_y * tile_size;
 						crop_location.x = tile_x * tile_size;
 
+
+						bool needs_clean_tile = false;
+
+						if (crop_location.y + tile_size > image->height()) {
+							crop_dimensions.y -= (crop_location.y + tile_size) - (image->height());
+
+							needs_clean_tile = true;
+						}
+
+						if (crop_location.x + tile_size > image->width()) {
+							crop_dimensions.x -= (crop_location.x + tile_size) - (image->width());
+							needs_clean_tile = true;
+						}
+
+
 						auto tile =
 							boost::gil::subimage_view(boost::gil::const_view(*image),
 								crop_location,
 								crop_dimensions);
+
+						if (needs_clean_tile) {
+
+							boost::gil::rgba8_pixel_t px(0, 0, 0, 0);
+
+							boost::gil::fill_pixels(boost::gil::view(empty_tile), px);
+
+							auto view = boost::gil::subimage_view(boost::gil::view(empty_tile), 
+																  boost::gil::point2<ptrdiff_t>(0, 0), 
+																  crop_dimensions);
+							boost::gil::copy_pixels(tile, view);
+
+							tile = boost::gil::view(empty_tile);
+
+							crop_dimensions.y = tile_size;
+							crop_dimensions.x = tile_size; // we restore the crop dimensions
+						}
 
 						bool computed_tile = lookup(tile, tile_index);
 
@@ -200,7 +247,7 @@ int windy::tmx_converter::run(const std::vector<std::string>& args){
 						}
 
 					} else {
-						// does not exist inside the texture bounds
+						// does not exist inside the texture bounds, we need to blit max tiles + alpha blit
 						tile_index = 0;
 					}
 
@@ -231,7 +278,6 @@ int windy::tmx_converter::run(const std::vector<std::string>& args){
 					} 
 
 					++tile_count;
-
 				}
 			}
 
@@ -242,19 +288,23 @@ int windy::tmx_converter::run(const std::vector<std::string>& args){
 
 	computed_hashes.clear();
 
+	
+
 	for (uint64_t i = 0; i < tilesets.size(); ++i) {
 
 		auto tileset = tilesets[i].get();
 
 		tileset->extrude();
 
-		std::string texture_path = output +
+		boost::filesystem::path texture_path(output);
+
+		texture_path /=
 			raw_name +
 			"_bank_" +
 			std::to_string(i) +
 			".png";
 
-		tileset->save(texture_path);
+		tileset->save(texture_path.string());
 
 	}
 

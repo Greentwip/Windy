@@ -28,6 +28,7 @@ public:
 
 private:
 	unsigned int validate_tileset();
+	std::string compress(const std::vector<uint32_t>& input, const uint64_t& width, const uint64_t& height);
 
 public:
 	std::string _raw_name;

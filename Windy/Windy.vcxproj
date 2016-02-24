@@ -166,6 +166,7 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="tools\crypto\base64.hpp" />
     <ClInclude Include="tools\crypto\sha256.hpp" />
     <ClInclude Include="tools\image\cropper.hpp" />
     <ClInclude Include="tools\image\merger.hpp" />

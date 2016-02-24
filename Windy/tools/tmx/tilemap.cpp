@@ -6,6 +6,9 @@
 #include "xmlwriter.hpp"
 
 #include "tools/memory/mmap_pool.hpp"
+#include "tools/crypto/base64.hpp"
+
+#include "zlib.h"
 
 windy::tilemap::tilemap(const std::string& raw_name,
 	const unsigned int& width,
@@ -24,6 +27,98 @@ windy::tilemap::tilemap(const std::string& raw_name,
 
 	auto validation = validate_tileset();
 }
+
+
+unsigned int windy::tilemap::validate_tileset() {
+
+	// a suitable texture is one of pot size that can be divided by tile_size
+	// a suitable tile_size is one of pot size too
+	assert(this->_texture_size % this->_tile_size == 0);
+
+	unsigned int spaced_tile_size = this->_tile_size + this->_spacing;
+
+	this->_matrix_size = (unsigned int)std::floor(double(this->_texture_size) / double(spaced_tile_size));
+
+	// tilemap textures can't have 0 tiles, (tile_size == texture_size would be common here)
+	assert(this->_matrix_size != 0);
+
+	// the margin must be an even number
+	assert((this->_texture_size - spaced_tile_size * this->_matrix_size) % 2 == 0);
+
+	return (this->_texture_size - spaced_tile_size * this->_matrix_size) / 2;
+};
+
+std::string windy::tilemap::compress(const std::vector<uint32_t>& input, const uint64_t& width, const uint64_t& height) {
+	std::vector<unsigned char> data;
+	data.reserve(width * height * 4);
+
+	for (auto& gid : input) {
+
+/*		unsigned char* u_data = (unsigned char*)(gid);
+
+		for (unsigned int i = 0; i<sizeof(gid); ++i)
+		{
+			data.push_back(u_data[i]);
+		}*/
+
+		data.push_back((unsigned char)gid);
+		data.push_back((unsigned char)gid >> 8);
+		data.push_back((unsigned char)gid >> 16);
+		data.push_back((unsigned char)gid >> 24);
+	}
+
+	
+	std::vector<unsigned char> out;
+
+	out.resize(1024);
+
+	int err;
+	z_stream strm;
+
+	strm.zalloc = Z_NULL;
+	strm.zfree = Z_NULL;
+	strm.opaque = Z_NULL;
+	strm.next_in = (Bytef *)data.data();
+	strm.avail_in = data.size();
+	strm.next_out = (Bytef *)out.data();
+	strm.avail_out = out.size();
+
+	const int windowBits = 15;
+
+	err = deflateInit2(&strm, Z_DEFAULT_COMPRESSION, Z_DEFLATED, windowBits,
+		8, Z_DEFAULT_STRATEGY);
+
+	if (err != Z_OK) {
+		//logZlibError(err);
+		return std::string();
+	}
+
+	do {
+		err = deflate(&strm, Z_FINISH);
+		assert(err != Z_STREAM_ERROR);
+
+		if (err == Z_OK) {
+			// More output space needed
+			int oldSize = out.size();
+			out.resize(out.size() * 2);
+			strm.next_out = (Bytef *)(out.data() + oldSize);
+			strm.avail_out = oldSize;
+		}
+	} while (err == Z_OK);
+
+	if (err != Z_STREAM_END) {
+		//logZlibError(err);
+		deflateEnd(&strm);
+		return std::string();
+	}
+
+	const int outLength = out.size() - strm.avail_out;
+	deflateEnd(&strm);
+
+	out.resize(outLength);
+
+	return windy::base64(out);
+};
 
 int windy::tilemap::build_tmx(const std::string& out_path, const std::string& map_index) {
 
@@ -107,9 +202,13 @@ int windy::tilemap::build_tmx(const std::string& out_path, const std::string& ma
 				<< attr("width") << map_width
 				<< attr("height") << map_height;
 
-			xml << tag("data");
+			xml << tag("data")
+				<< attr("encoding") << "base64"
+				<< attr("compression") << "zlib";
 
-			for (uint64_t i = 0; i < tile_layer->index_keys.size(); ++i) {
+			xml << chardata() << compress(tile_layer->index_keys, this->_width, this->_height);
+
+/*			for (uint64_t i = 0; i < tile_layer->index_keys.size(); ++i) {
 				auto str = std::to_string(tile_layer->index_keys[i]);
 
 				xml << tag("tile")
@@ -118,7 +217,7 @@ int windy::tilemap::build_tmx(const std::string& out_path, const std::string& ma
 
 				xml << endtag("tile");
 
-			}
+			}*/
 
 			xml << endtag("data");
 
@@ -133,24 +232,7 @@ int windy::tilemap::build_tmx(const std::string& out_path, const std::string& ma
 	return 0;
 }
 
-unsigned int windy::tilemap::validate_tileset() {
 
-	// a suitable texture is one of pot size that can be divided by tile_size
-	// a suitable tile_size is one of pot size too
-	assert(this->_texture_size % this->_tile_size == 0);
-
-	unsigned int spaced_tile_size = this->_tile_size + this->_spacing;
-
-	this->_matrix_size = (unsigned int)std::floor(double(this->_texture_size) / double(spaced_tile_size));
-
-	// tilemap textures can't have 0 tiles, (tile_size == texture_size would be common here)
-	assert(this->_matrix_size != 0);
-
-	// the margin must be an even number
-	assert((this->_texture_size - spaced_tile_size * this->_matrix_size) % 2 == 0);
-
-	return (this->_texture_size - spaced_tile_size * this->_matrix_size) / 2;
-};
 /*
 unsigned int windy::tilemap::margin_for_tileset() {
 }*/
