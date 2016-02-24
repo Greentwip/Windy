@@ -45,7 +45,7 @@ struct PixelInserter {
 	PixelInserter(std::vector<unsigned char>* s) : storage(s) {}
 	void operator()(boost::gil::rgba8_pixel_t p) const {
 
-/*		auto alpha = boost::gil::at_c<3>(p);
+		auto alpha = boost::gil::at_c<3>(p);
 
 		if (alpha) {
 			storage->push_back(boost::gil::at_c<0>(p));
@@ -57,25 +57,21 @@ struct PixelInserter {
 			storage->push_back(0);
 			storage->push_back(0);
 			storage->push_back(0);
-		}*/
+		}
 
-		storage->push_back(boost::gil::at_c<0>(p));
-		storage->push_back(boost::gil::at_c<1>(p));
-		storage->push_back(boost::gil::at_c<2>(p));
-		storage->push_back(boost::gil::at_c<3>(p));
 	}
 };
 
-bool windy::tmx_converter::lookup(const boost::gil::image_view<boost::gil::rgba8c_planar_loc_t>& a, 
+bool windy::tmx_converter::lookup(const boost::gil::image_view<boost::gil::rgba8c_planar_loc_t>& a,
 								  unsigned long long& index) {
-	
+
 	std::vector<uint8_t> storage;
 
 	auto channels = boost::gil::num_channels<boost::gil::rgba8c_planar_loc_t>();
-	
+
 	ptrdiff_t data_length = a.width() * a.height() * channels.value;
 	storage.reserve(data_length);
-	
+
 	boost::gil::for_each_pixel(a, PixelInserter(&storage));
 
 	std::string a_sha = SHA256::to_sha256(storage.data(), data_length);
@@ -159,20 +155,20 @@ int windy::tmx_converter::run(const std::vector<std::string>& args){
 	boost::gil::point2<ptrdiff_t> crop_dimensions(tile_size, tile_size);
 
 	uint64_t sorted_tiles = 0;
-	
+
 	for (uint64_t map_y = 0; map_y < matrix_y; ++map_y) {
 		for (uint64_t map_x = 0; map_x < matrix_x; ++map_x) {
 			tilemap map(raw_name, map_size_tiles, map_size_tiles, tile_size, texture_size);
 			uint64_t tile_count = 0;
 
-			for (uint64_t tile_y = map_y * map_size_tiles; 
+			for (uint64_t tile_y = map_y * map_size_tiles;
 				 tile_y < (map_y * map_size_tiles) + map_size_tiles;
 				 ++tile_y) {
 
-				for (uint64_t tile_x = map_x * map_size_tiles; 
+				for (uint64_t tile_x = map_x * map_size_tiles;
 					 tile_x < (map_x * map_size_tiles) + map_size_tiles;
 					 ++tile_x) {
-					
+
 					uint64_t tile_index = sorted_tiles + 1;
 
 					if (tile_y < image_h_tiles && tile_x < image_w_tiles) {
@@ -206,8 +202,8 @@ int windy::tmx_converter::run(const std::vector<std::string>& args){
 
 							boost::gil::fill_pixels(boost::gil::view(empty_tile), px);
 
-							auto view = boost::gil::subimage_view(boost::gil::view(empty_tile), 
-																  boost::gil::point2<ptrdiff_t>(0, 0), 
+							auto view = boost::gil::subimage_view(boost::gil::view(empty_tile),
+																  boost::gil::point2<ptrdiff_t>(0, 0),
 																  crop_dimensions);
 							boost::gil::copy_pixels(tile, view);
 
@@ -253,7 +249,7 @@ int windy::tmx_converter::run(const std::vector<std::string>& args){
 
 
 					uint64_t largest_first_gid = 0;
-					std::shared_ptr<class tileset> target_tileset = nullptr; 
+					std::shared_ptr<class tileset> target_tileset = nullptr;
 
 					for (uint64_t i = 0; i < tilesets.size(); ++i) {
 						auto tileset = tilesets[i];
@@ -269,13 +265,13 @@ int windy::tmx_converter::run(const std::vector<std::string>& args){
 					if (target_tileset != nullptr) {
 
 						if (map._tile_layers.find(target_tileset) == map._tile_layers.end()) {
-							map._tile_layers[target_tileset] = 
+							map._tile_layers[target_tileset] =
 								std::make_shared<tilelayer>(map._width, map._height);
 						}
 
 						map._tile_layers[target_tileset]->index_keys[tile_count] = tile_index;
 
-					} 
+					}
 
 					++tile_count;
 				}
@@ -288,7 +284,7 @@ int windy::tmx_converter::run(const std::vector<std::string>& args){
 
 	computed_hashes.clear();
 
-	
+
 
 	for (uint64_t i = 0; i < tilesets.size(); ++i) {
 
@@ -309,6 +305,5 @@ int windy::tmx_converter::run(const std::vector<std::string>& args){
 	}
 
 
-	return 0;  
+	return 0;
 }
-
