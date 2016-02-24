@@ -252,19 +252,23 @@ int windy::tmx_converter::run(const std::vector<std::string>& args){
 
 	computed_hashes.clear();
 
+	
+
 	for (uint64_t i = 0; i < tilesets.size(); ++i) {
 
 		auto tileset = tilesets[i].get();
 
 		tileset->extrude();
 
-		std::string texture_path = output +
+		boost::filesystem::path texture_path(output);
+
+		texture_path /=
 			raw_name +
 			"_bank_" +
 			std::to_string(i) +
 			".png";
 
-		tileset->save(texture_path);
+		tileset->save(texture_path.string());
 
 	}
 
