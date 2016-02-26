@@ -1,6 +1,9 @@
 # Windy
 ## TMX toolset.
 
+### Supported engines:
+![alt tag](https://raw.githubusercontent.com/greentwip/windy/master/readme_files/supported_engines.png)
+
 The usage is pretty simple, compile with Visual Studio 2015, run and choose among the two options, resize and tmx.
 
 ### For split:
