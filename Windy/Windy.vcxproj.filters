@@ -34,6 +34,9 @@
     <Filter Include="tools\image\structures">
       <UniqueIdentifier>{d24680e6-2cc4-476c-8eab-e224b8945c38}</UniqueIdentifier>
     </Filter>
+    <Filter Include="tools\filesystem">
+      <UniqueIdentifier>{fdc8f49c-7c62-4023-8e80-c7a2b954abeb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
@@ -80,6 +83,9 @@
     </ClInclude>
     <ClInclude Include="tools\crypto\base64.hpp">
       <Filter>tools\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="tools\filesystem\path.hpp">
+      <Filter>tools\filesystem</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

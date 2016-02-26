@@ -21,9 +21,14 @@
 #include "tileset.hpp"
 #include "tilelayer.hpp"
 
+#include "tools/image/merger.hpp"
+
 #include "tools/crypto/sha256.hpp"
 #include "tools/memory/mmap_allocator.hpp"
 #include "tools/memory/mmap_pool.hpp"
+#include "tools/filesystem/path.hpp"
+
+
 
 template <template<class, class, class...> class C, typename K, typename V, typename... Args>
 bool GetWithDef(C<K, V, Args...>& m, K const& key, V& value)
@@ -83,31 +88,15 @@ bool windy::tmx_converter::lookup(const boost::gil::image_view<boost::gil::rgba8
 
 int windy::tmx_converter::run(const std::vector<std::string>& args){
 
-	std::string source(args[0].begin(), args[0].end());
+	std::string input(args[0].begin(), args[0].end());
 	std::string output(args[1].begin(), args[1].end());
 
 	unsigned int tile_size = std::stoi(args[2]);
 	unsigned int texture_size = std::stoi(args[3]);
 
-	std::vector<std::string> tokens;
+	auto raw_name = path::raw_name(input);
+	auto wxt_validation = path::extension(input);
 
-	std::string buffer;
-	for (auto character : source) {
-
-		if (character == '\\') {
-			tokens.push_back(buffer);
-			buffer.clear();
-		}
-		else {
-			buffer.push_back(character);
-		}
-	}
-
-	tokens.push_back(buffer);
-
-	auto back = tokens.back();
-
-	std::string raw_name = std::string(back.begin(), back.end() - 4);
 
 	auto image = std::make_shared<
 	boost::gil::image
@@ -115,17 +104,27 @@ int windy::tmx_converter::run(const std::vector<std::string>& args){
 		true,
 		mmap_allocator<unsigned char> > > ();
 
-	try {
-		//boost::gil::png_read_and_convert_image(source, *image);
-		boost::gil::png_read_image(source, *image);
-	} catch (boost::exception & ex) {
-		std::cerr << boost::diagnostic_information_what(ex) << std::endl;
+	if (wxt_validation.compare(".wxt") == 0) {
+		// merge first
+		windy::merger merger;
+		image = merger.merge_from_file(input);
+
+	} else {
+		// from png
+		try {
+			//boost::gil::png_read_and_convert_image(source, *image);
+			boost::gil::png_read_image(input, *image);
+		}
+		catch (boost::exception & ex) {
+			std::cerr << boost::diagnostic_information_what(ex) << std::endl;
+		}
 	}
+
+
 
 	boost::gil::image<boost::gil::rgba8_pixel_t, true> empty_tile(tile_size, tile_size);
 
 	{
-
 		boost::gil::rgba8_pixel_t px(0, 0, 0, 0);
 
 		boost::gil::fill_pixels(boost::gil::view(empty_tile), px);
@@ -175,7 +174,6 @@ int windy::tmx_converter::run(const std::vector<std::string>& args){
 						// exists inside the texture bounds
 						crop_location.y = tile_y * tile_size;
 						crop_location.x = tile_x * tile_size;
-
 
 						bool needs_clean_tile = false;
 
@@ -247,7 +245,6 @@ int windy::tmx_converter::run(const std::vector<std::string>& args){
 						tile_index = 0;
 					}
 
-
 					uint64_t largest_first_gid = 0;
 					std::shared_ptr<class tileset> target_tileset = nullptr;
 
@@ -283,8 +280,6 @@ int windy::tmx_converter::run(const std::vector<std::string>& args){
 	}
 
 	computed_hashes.clear();
-
-
 
 	for (uint64_t i = 0; i < tilesets.size(); ++i) {
 

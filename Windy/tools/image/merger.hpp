@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <string>
+#include <memory>
 
 #define png_infopp_NULL (png_infopp)NULL
 #define int_p_NULL (int*)NULL
@@ -25,6 +26,7 @@
 #include "tools/memory/mmap_allocator.hpp"
 
 #include "tools/image/structures/wxt.hpp"
+#include "tools/filesystem/path.hpp"
 
 
 namespace windy {
@@ -36,26 +38,18 @@ namespace windy {
 			auto input = arguments[0];
 			auto output = arguments[1];
 
-			std::vector<std::string> tokens;
+			auto merged_output = merge_from_file(input);
 
-			std::string buffer;
-			for (auto character : input) {
+			boost::gil::png_write_view(output, boost::gil::const_view(*merged_output));
 
-				if (character == '\\') {
-					tokens.push_back(buffer);
-					buffer.clear();
-				}
-				else {
-					buffer.push_back(character);
-				}
-			}
+			return 0;
+		}
 
-			tokens.push_back(buffer);
+		std::shared_ptr<boost::gil::image<boost::gil::rgba8_pixel_t,
+			true,
+			mmap_allocator<unsigned char> > > merge_from_file(const std::string& input) {
 
-			auto back = tokens.back();
-
-			std::string raw_name = std::string(back.begin(), back.end() - 4);
-
+			auto raw_name = path::raw_name(input);
 
 			// open the archive
 			std::ifstream ifs(input);
@@ -66,15 +60,11 @@ namespace windy {
 			// restore the wxt_image from the archive
 			ia >> container;
 
-
-			boost::gil::image<boost::gil::rgba8_pixel_t,
+			auto merged_output = std::make_shared<
+				boost::gil::image<boost::gil::rgba8_pixel_t,
 				true,
-				mmap_allocator<unsigned char> >
-				merged_output(container.width(), container.height());
-
-			boost::gil::rgba8_pixel_t px(0, 0, 0, 0);
-			boost::gil::fill_pixels(boost::gil::view(merged_output), px);
-
+				mmap_allocator<unsigned char> > >(container.width(), container.height());
+			
 			for (auto segment : container.segments_vector()) {
 
 				boost::gil::image
@@ -87,32 +77,31 @@ namespace windy {
 
 					auto directory = p.parent_path();
 
-					auto segment_path = raw_name + 
-								"_" + 
-								std::to_string(segment.idx_y()) + 
-								"_" + 
-								std::to_string(segment.idx_x()) + 
-								".png";
+					auto segment_path = raw_name +
+						"_" +
+						std::to_string(segment.idx_y()) +
+						"_" +
+						std::to_string(segment.idx_x()) +
+						".png";
 
 					directory /= segment_path;
-					
-					boost::gil::png_read_and_convert_image(directory.string(), img_segment);
-				}	catch (boost::exception & ex) {
+
+					boost::gil::png_read_image(directory.string(), img_segment);
+				}
+				catch (boost::exception & ex) {
 					std::cerr << boost::diagnostic_information_what(ex) << std::endl;
 				}
 
-				boost::gil::point2<ptrdiff_t> tile_location(segment.x(), segment.y()); 
+				boost::gil::point2<ptrdiff_t> tile_location(segment.x(), segment.y());
 				boost::gil::point2<ptrdiff_t> tile_dimensions(img_segment.width(), img_segment.height());
 
 
-				auto view = boost::gil::subimage_view(boost::gil::view(merged_output), tile_location, tile_dimensions);
-				
+				auto view = boost::gil::subimage_view(boost::gil::view(*merged_output), tile_location, tile_dimensions);
+
 				boost::gil::copy_pixels(boost::gil::const_view(img_segment), view);
 			}
 
-			boost::gil::png_write_view(output, boost::gil::const_view(merged_output));
-
-			return 0;
+			return merged_output;
 		}
 	};
 

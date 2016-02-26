@@ -66,7 +66,7 @@ namespace windy {
 				true,
 				mmap_allocator<unsigned char> > img;
 			try {
-				boost::gil::png_read_and_convert_image(input, img);
+				boost::gil::png_read_image(input, img);
 			} catch (boost::exception & ex) {
 				std::cerr << boost::diagnostic_information_what(ex) << std::endl;
 			}

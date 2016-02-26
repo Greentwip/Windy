@@ -36,13 +36,16 @@ If you're willing to port the toolset to another operating system take in consid
 
 * Boost needs to be implemented with some sort of automated script; by the moment we use precompiled libraries.  
 * The numeric extension for Boost was modified so that it could accept large texture dimensions, stick to it, make a patch for the sampler.
-* From Boost we use: system, filesystem, serialization, and iostreams as compiled libraries, everything else is header-only, like lexical_cast, uuid and gil.
+* From Boost we use: system, filesystem, serialization, zlib, and iostreams as compiled libraries, everything else is header-only, like lexical_cast, uuid and gil.
 * File dialogs will work with any platform as long as we are able to improve the library.
 * C++14 is required.
 * x64 is a must. Or have the solution for x86 and memory mapped files.
 
 ### TODO:
 * Support conversion from indexed and RGB color spaces.
+* WXT container files.
+* WXM container files.
+* Engine exporting from WXM files.
 
 ### 3rd parties
 * [boost](http://www.boost.org/)

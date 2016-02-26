@@ -8,7 +8,9 @@
 #include "tools/memory/mmap_pool.hpp"
 #include "tools/crypto/base64.hpp"
 
-#include "zlib.h"
+#include <boost/iostreams/filtering_streambuf.hpp>
+#include <boost/iostreams/copy.hpp>
+#include <boost/iostreams/filter/zlib.hpp>
 
 windy::tilemap::tilemap(const std::string& raw_name,
 	const unsigned int& width,
@@ -49,75 +51,32 @@ unsigned int windy::tilemap::validate_tileset() {
 };
 
 std::string windy::tilemap::compress(const std::vector<uint32_t>& input, const uint64_t& width, const uint64_t& height) {
-	std::vector<unsigned char> data;
-	data.reserve(width * height * 4);
+
+	std::stringstream compressed;
+	std::stringstream decompressed;
 
 	for (auto& gid : input) {
-
-/*		unsigned char* u_data = (unsigned char*)(gid);
-
-		for (unsigned int i = 0; i<sizeof(gid); ++i)
-		{
-			data.push_back(u_data[i]);
-		}*/
-
-		data.push_back((unsigned char)gid);
-		data.push_back((unsigned char)gid >> 8);
-		data.push_back((unsigned char)gid >> 16);
-		data.push_back((unsigned char)gid >> 24);
-	}
-
-	
-	std::vector<unsigned char> out;
-
-	out.resize(1024);
-
-	int err;
-	z_stream strm;
-
-	strm.zalloc = Z_NULL;
-	strm.zfree = Z_NULL;
-	strm.opaque = Z_NULL;
-	strm.next_in = (Bytef *)data.data();
-	strm.avail_in = data.size();
-	strm.next_out = (Bytef *)out.data();
-	strm.avail_out = out.size();
-
-	const int windowBits = 15;
-
-	err = deflateInit2(&strm, Z_DEFAULT_COMPRESSION, Z_DEFLATED, windowBits,
-		8, Z_DEFAULT_STRATEGY);
-
-	if (err != Z_OK) {
-		//logZlibError(err);
-		return std::string();
-	}
-
-	do {
-		err = deflate(&strm, Z_FINISH);
-		assert(err != Z_STREAM_ERROR);
-
-		if (err == Z_OK) {
-			// More output space needed
-			int oldSize = out.size();
-			out.resize(out.size() * 2);
-			strm.next_out = (Bytef *)(out.data() + oldSize);
-			strm.avail_out = oldSize;
+		std::string storage;
+		
+		for (unsigned int i = 0; i < 4; ++i) {
+			storage.push_back(((unsigned char *)&gid)[i]);
 		}
-	} while (err == Z_OK);
-
-	if (err != Z_STREAM_END) {
-		//logZlibError(err);
-		deflateEnd(&strm);
-		return std::string();
+		
+		decompressed << storage;
 	}
 
-	const int outLength = out.size() - strm.avail_out;
-	deflateEnd(&strm);
+	boost::iostreams::filtering_streambuf<boost::iostreams::input> out;
 
-	out.resize(outLength);
+	boost::iostreams::zlib_params p;
+	p.level = boost::iostreams::zlib::best_compression;
 
-	return windy::base64(out);
+	out.push(boost::iostreams::zlib_compressor(p));
+
+	out.push(decompressed);
+
+	boost::iostreams::copy(out, compressed);
+
+	return windy::base64(compressed.str());
 };
 
 int windy::tilemap::build_tmx(const std::string& out_path, const std::string& map_index) {
@@ -208,14 +167,14 @@ int windy::tilemap::build_tmx(const std::string& out_path, const std::string& ma
 
 			xml << chardata() << compress(tile_layer->index_keys, this->_width, this->_height);
 
-/*			for (uint64_t i = 0; i < tile_layer->index_keys.size(); ++i) {
-				auto str = std::to_string(tile_layer->index_keys[i]);
+			/*			for (uint64_t i = 0; i < tile_layer->index_keys.size(); ++i) {
+			auto str = std::to_string(tile_layer->index_keys[i]);
 
-				xml << tag("tile")
+			xml << tag("tile")
 
-					<< attr("gid") << str;
+			<< attr("gid") << str;
 
-				xml << endtag("tile");
+			xml << endtag("tile");
 
 			}*/
 

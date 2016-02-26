@@ -168,6 +168,7 @@
   <ItemGroup>
     <ClInclude Include="tools\crypto\base64.hpp" />
     <ClInclude Include="tools\crypto\sha256.hpp" />
+    <ClInclude Include="tools\filesystem\path.hpp" />
     <ClInclude Include="tools\image\cropper.hpp" />
     <ClInclude Include="tools\image\merger.hpp" />
     <ClInclude Include="tools\image\resizer.hpp" />
