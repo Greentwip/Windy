@@ -31,7 +31,7 @@ public:
 
 		_form.add("Number of pieces", 
 				  "Split", 
-				  "4", 
+				  "16", 
 				  std::bind(&app::on_split, this, std::placeholders::_1),
 				  windy::functional_form::input_constraints::number);
 
@@ -49,7 +49,7 @@ public:
 
 		_form.add("Tile size",
 				  "TMX",
-				  "32", 
+				  "128", 
 				  std::bind(&app::on_tmx, this, std::placeholders::_1),
 				  windy::functional_form::input_constraints::pot_number);
 	}
@@ -189,13 +189,13 @@ public:
 			output_file = path;
 		};
 
-		open_dialog.show({ "png" });
+		open_dialog.show({ "wxt", "png" });
 		folder_dialog.show();
 
 		if (input_file.size() > 0 && output_file.size() > 0) {
 			windy::tmx_converter tmx_converter;
 
-			tmx_converter.run({ input_file, output_file, input, "1024" });
+			tmx_converter.run({ input_file, output_file, input, "2048" });
 
 			nana::msgbox m(*_form.get_window(), L"Information");
 			m << std::wstring(L"Complete!");
