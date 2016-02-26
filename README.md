@@ -18,7 +18,7 @@ You must specify the design resolution width that was used to draw the texture y
 1920 / design resolution width.
 
 ### For tmx:
-Specify the tile size and the texture you're planning to convert into a TMX map.
+Specify the tile size and the texture/wxt file you're planning to convert into a TMX map.
 
 You need to specify a folder because it will split in many tmx maps (this is to help the renderers that have limitations over the amount of tiles that can be drawn, usually it is 128x128 tiles).
 
