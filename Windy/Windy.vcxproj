@@ -106,17 +106,18 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)/3rdparty/boost;$(SolutionDir)/3rdparty/png;$(SolutionDir)/3rdparty/xml;$(SolutionDir)/3rdparty/rapidxml;$(SolutionDir)/3rdparty/nana/include;$(SolutionDir)/3rdparty/dialogs/include;$(ProjectDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/3rdparty/boost;$(SolutionDir)/3rdparty/zlib;$(SolutionDir)/3rdparty/png;$(SolutionDir)/3rdparty/xml;$(SolutionDir)/3rdparty/rapidxml;$(SolutionDir)/3rdparty/nana/include;$(ProjectDir)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)/3rdparty/boost/lib64-msvc-14.0;$(SolutionDir)lib\$(Configuration)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>nanad.lib;libpngd.lib;zlibd.lib;dialogsd.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>nanad.lib;libpngd.lib;zlibd.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy $(ProjectDir)res\* $(OutDir)res\  /s /e /y /i</Command>
+      <Command>xcopy $(ProjectDir)res\* $(OutDir)res\  /s /e /y /i
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
@@ -147,7 +148,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;_UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)/3rdparty/boost;$(SolutionDir)/3rdparty/png;$(SolutionDir)/3rdparty/xml;$(SolutionDir)/3rdparty/rapidxml;$(SolutionDir)/3rdparty/nana/include;$(SolutionDir)/3rdparty/dialogs/include;$(ProjectDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/3rdparty/boost;$(SolutionDir)/3rdparty/zlib;$(SolutionDir)/3rdparty/png;$(SolutionDir)/3rdparty/xml;$(SolutionDir)/3rdparty/rapidxml;$(SolutionDir)/3rdparty/nana/include;$(ProjectDir)</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -156,33 +157,54 @@
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>$(SolutionDir)/3rdparty/boost/lib64-msvc-14.0;$(SolutionDir)lib\$(Configuration)</AdditionalLibraryDirectories>
-      <AdditionalDependencies>nana.lib;libpng.lib;zlib.lib;dialogs.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>nana.lib;libpng.lib;zlib.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
     <PostBuildEvent>
-      <Command>xcopy $(ProjectDir)res\* $(OutDir)res\  /s /e /y /i</Command>
+      <Command>xcopy $(ProjectDir)res\* $(OutDir)res\  /s /e /y /i
+</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="core\animation\back_end\back_end_buffer.hpp" />
+    <ClInclude Include="core\animation\back_end\back_end_timeline.hpp" />
+    <ClInclude Include="core\animation\front_end\front_end_animation.hpp" />
+    <ClInclude Include="core\animation\front_end\front_end_composition.hpp" />
+    <ClInclude Include="core\animation\front_end\front_end_component.hpp" />
+    <ClInclude Include="core\animation\front_end\front_end_buffer.hpp" />
+    <ClInclude Include="core\animation\front_end\front_end_background.hpp" />
+    <ClInclude Include="core\animation\front_end\front_end_scene.hpp" />
+    <ClInclude Include="core\animation\types\matrix_size.hpp" />
+    <ClInclude Include="core\animation\types\timeline_frame.hpp" />
+    <ClInclude Include="core\forms\app_form.hpp" />
+    <ClInclude Include="core\forms\mappings_form.hpp" />
+    <ClInclude Include="core\forms\project_explorer_form.hpp" />
+    <ClInclude Include="core\forms\properties_form.hpp" />
+    <ClInclude Include="core\forms\timeline_form.hpp" />
     <ClInclude Include="tools\crypto\base64.hpp" />
     <ClInclude Include="tools\crypto\sha256.hpp" />
+    <ClInclude Include="tools\crypto\z64.hpp" />
     <ClInclude Include="tools\filesystem\path.hpp" />
+    <ClInclude Include="tools\gui\functional_form.hpp" />
     <ClInclude Include="tools\image\cropper.hpp" />
     <ClInclude Include="tools\image\merger.hpp" />
+    <ClInclude Include="tools\image\mmap_image.hpp" />
     <ClInclude Include="tools\image\resizer.hpp" />
     <ClInclude Include="tools\image\structures\wxt.hpp" />
     <ClInclude Include="tools\memory\mmap_allocator.hpp" />
     <ClInclude Include="tools\memory\mmap_pool.hpp" />
     <ClInclude Include="tools\number\digits.hpp" />
     <ClInclude Include="tools\number\uuid.hpp" />
+    <ClInclude Include="tools\project\structures\wxp.hpp" />
     <ClInclude Include="tools\tmx\tilelayer.hpp" />
     <ClInclude Include="tools\tmx\tilemap.hpp" />
     <ClInclude Include="tools\tmx\tileset.hpp" />
     <ClInclude Include="tools\tmx\tmx_converter.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="core\animation\back_end\back_end_buffer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="tools\tmx\tilemap.cpp" />
     <ClCompile Include="tools\tmx\tileset.cpp" />

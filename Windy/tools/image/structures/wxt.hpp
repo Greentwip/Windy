@@ -19,6 +19,7 @@ namespace windy {
 			ar & _idx_y;
 			ar & _x;
 			ar & _y;
+			ar & _data;
 		}
 
 		uint64_t _idx_x;
@@ -27,19 +28,27 @@ namespace windy {
 		uint64_t _x;
 		uint64_t _y;
 
+		std::string _data;
+
 	public:
 		wxt_segment() {
 			this->_idx_x	= -1;
 			this->_idx_y	= -1;
 			this->_x		= -1;
 			this->_y		= -1;
+			this->_data		= std::string();
 		}
 
-		wxt_segment(const uint64_t& idx_x, const uint64_t& idx_y, const uint64_t& x, const uint64_t& y) {
+		wxt_segment(const uint64_t& idx_x, 
+					const uint64_t& idx_y, 
+					const uint64_t& x, 
+					const uint64_t& y, 
+					const std::string& data) {
 			this->_idx_x = idx_x;
 			this->_idx_y = idx_y;
 			this->_x = x;
 			this->_y = y;
+			this->_data = data;
 		}
 
 		wxt_segment(const wxt_segment& other) {
@@ -47,6 +56,7 @@ namespace windy {
 			this->_idx_y = other._idx_y;
 			this->_x = other._x;
 			this->_y = other._y;
+			this->_data = other._data;
 		}
 
 		const uint64_t& idx_x() { return this->_idx_x;  }
@@ -54,6 +64,8 @@ namespace windy {
 
 		const uint64_t& x() { return this->_x; }
 		const uint64_t& y() { return this->_y; }
+
+		const std::string& data() { return this->_data;  }
 	};
 
 	class wxt_image

@@ -6,11 +6,7 @@
 #include "xmlwriter.hpp"
 
 #include "tools/memory/mmap_pool.hpp"
-#include "tools/crypto/base64.hpp"
-
-#include <boost/iostreams/filtering_streambuf.hpp>
-#include <boost/iostreams/copy.hpp>
-#include <boost/iostreams/filter/zlib.hpp>
+#include "tools/crypto/z64.hpp"
 
 windy::tilemap::tilemap(const std::string& raw_name,
 	const unsigned int& width,
@@ -48,35 +44,6 @@ unsigned int windy::tilemap::validate_tileset() {
 	assert((this->_texture_size - spaced_tile_size * this->_matrix_size) % 2 == 0);
 
 	return (this->_texture_size - spaced_tile_size * this->_matrix_size) / 2;
-};
-
-std::string windy::tilemap::compress(const std::vector<uint32_t>& input, const uint64_t& width, const uint64_t& height) {
-
-	std::stringstream compressed;
-	std::stringstream decompressed;
-
-	for (auto& gid : input) {
-		std::string storage;
-		
-		for (unsigned int i = 0; i < 4; ++i) {
-			storage.push_back(((unsigned char *)&gid)[i]);
-		}
-		
-		decompressed << storage;
-	}
-
-	boost::iostreams::filtering_streambuf<boost::iostreams::input> out;
-
-	boost::iostreams::zlib_params p;
-	p.level = boost::iostreams::zlib::best_compression;
-
-	out.push(boost::iostreams::zlib_compressor(p));
-
-	out.push(decompressed);
-
-	boost::iostreams::copy(out, compressed);
-
-	return windy::base64(compressed.str());
 };
 
 int windy::tilemap::build_tmx(const std::string& out_path, const std::string& map_index) {
@@ -165,7 +132,7 @@ int windy::tilemap::build_tmx(const std::string& out_path, const std::string& ma
 				<< attr("encoding") << "base64"
 				<< attr("compression") << "zlib";
 
-			xml << chardata() << compress(tile_layer->index_keys, this->_width, this->_height);
+			xml << chardata() << z64::from(tile_layer->index_keys);
 
 			/*			for (uint64_t i = 0; i < tile_layer->index_keys.size(); ++i) {
 			auto str = std::to_string(tile_layer->index_keys[i]);

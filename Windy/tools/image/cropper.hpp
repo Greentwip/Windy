@@ -3,13 +3,21 @@
 
 #include <vector>
 #include <string>
+#include <iostream>
 
 #define png_infopp_NULL (png_infopp)NULL
 #define int_p_NULL (int*)NULL
 
+
+#include "boost/archive/binary_oarchive.hpp"
+#include "boost/iostreams/stream_buffer.hpp"
+#include "boost/iostreams/stream.hpp"
+#include "boost/iostreams/device/back_inserter.hpp"
+#include "boost/serialization/vector.hpp"
+
 #include "boost/gil/image.hpp"
 #include "boost/gil/typedefs.hpp"
-#include "boost/gil/extension/io/png_io.hpp"
+#include "boost/gil/extension/io_new/png_all.hpp"
 #include "boost/gil/extension/numeric/sampler.hpp"
 #include "boost/gil/extension/numeric/resample.hpp"
 
@@ -23,8 +31,10 @@
 #include "boost/lexical_cast.hpp"
 
 #include "tools/memory/mmap_allocator.hpp"
-
 #include "tools/image/structures/wxt.hpp"
+
+#include "tools/filesystem/path.hpp"
+#include "tools/crypto/z64.hpp"
 
 
 namespace windy {
@@ -36,26 +46,7 @@ namespace windy {
 			auto input = arguments[0];
 			auto output = arguments[1];
 
-			std::vector<std::string> tokens;
-
-			std::string buffer;
-			for (auto character : input) {
-
-				if (character == '\\') {
-					tokens.push_back(buffer);
-					buffer.clear();
-				}
-				else {
-					buffer.push_back(character);
-				}
-			}
-
-			tokens.push_back(buffer);
-
-			auto back = tokens.back();
-
-			std::string raw_name = std::string(back.begin(), back.end() - 4);
-
+			auto raw_name = path::raw_name(input);
 
 			uint64_t pieces = atoi(arguments[2].c_str());
 
@@ -66,7 +57,7 @@ namespace windy {
 				true,
 				mmap_allocator<unsigned char> > img;
 			try {
-				boost::gil::png_read_image(input, img);
+				boost::gil::read_image(input, img, boost::gil::png_tag());
 			} catch (boost::exception & ex) {
 				std::cerr << boost::diagnostic_information_what(ex) << std::endl;
 			}
@@ -76,12 +67,8 @@ namespace windy {
 
 			boost::gil::point2<ptrdiff_t> tile_location(0, 0);
 			boost::gil::point2<ptrdiff_t>
-				tile_dimensions(std::ceil(img.width() / num_columns), 
-								std::ceil(img.height() / num_rows));
-
-			auto wxt_output_path = boost::filesystem::path(output);
-
-			wxt_output_path /= raw_name + ".wxt";
+				tile_dimensions(ptrdiff_t(std::ceil(img.width() / num_columns)),
+								ptrdiff_t(std::ceil(img.height() / num_rows)));
 
 			// make an archive
 			wxt_image wxt_container(img.width(), img.height());
@@ -111,27 +98,63 @@ namespace windy {
 					auto view = boost::gil::subimage_view(boost::gil::view(img), tile_location, tile_dimensions);
 					boost::gil::copy_pixels(view, boost::gil::view(tile));
 
-					auto texture_output_path = boost::filesystem::path(output);
+//					auto texture_output_path = boost::filesystem::path(output);
 
-					texture_output_path /= std::string(raw_name +
-												"_" + 
-												std::to_string(y) + 
-												"_" +
-												std::to_string(x) + 
-												".png");
+//					texture_output_path /= std::string(raw_name +
+//												"_" + 
+//												std::to_string(y) + 
+//												"_" +
+//												std::to_string(x) + 
+//												".png");
+				
+					std::stringstream output_segment_stream;
 
-					wxt_segment wxt_segment(x, y, tile_location.x, tile_location.y);
+//@NOTE compression achieves smaller files by doing z::from for each segment's data
+					boost::gil::write_view(output_segment_stream, boost::gil::const_view(tile), boost::gil::png_tag());
+
+					wxt_segment wxt_segment(x, y, tile_location.x, tile_location.y, output_segment_stream.str());
 
 					wxt_container.add_segment(wxt_segment);
-
-					boost::gil::png_write_view(texture_output_path.string(), boost::gil::const_view(tile));
-
 				}
 			}
 
-			std::ofstream ofs(wxt_output_path.string());
-			boost::archive::text_oarchive oa(ofs);
+//@NOTE read above
+
+#ifndef z_compression
+#define z_compression
+#endif
+
+			auto wxt_output_path = boost::filesystem::path(output);
+			wxt_output_path /= raw_name + ".wxt";
+
+#ifdef z_compression
+			std::stringstream output_archive_stream;
+
+			boost::archive::binary_oarchive oa(output_archive_stream);
 			oa << wxt_container;
+
+			auto stream_data = output_archive_stream.str();
+
+			auto z_data = z::compress_from(stream_data);
+
+			std::stringstream z_data_stream;
+
+			z_data_stream << z_data;
+
+			std::ofstream output_file(wxt_output_path.string(), std::ios::binary | std::ios::trunc);
+
+			std::copy(
+				std::istreambuf_iterator<char>(z_data_stream),
+				std::istreambuf_iterator<char>(),
+				std::ostreambuf_iterator<char>(output_file));
+
+#else
+			std::ofstream ofs(wxt_output_path.string());
+
+			boost::archive::binary_oarchive oa(ofs);
+			oa << wxt_container;
+
+#endif
 
 			return 0;
 		}

@@ -10,6 +10,8 @@
 #include "nana/gui/widgets/button.hpp"
 #include "nana/gui/widgets/label.hpp"
 #include "nana/gui/widgets/textbox.hpp"
+#include "nana/gui/widgets/menubar.hpp"
+#include "nana/gui/filebox.hpp"
 
 #include "tools/number/digits.hpp"
 
@@ -30,6 +32,20 @@ namespace windy {
 			auto window_rect = nana::API::make_center(width, height);
 			_window = std::make_shared<nana::form>(window_rect);
 			_window->caption(caption);
+		}
+
+		void menu_item() {
+
+			if (!_menu_bar) {
+				_menu_bar = std::make_shared<nana::menubar>(*this->_window);
+			}
+
+			_menu_bar->push_back(L"&FILE");
+			_menu_bar->at(0).append(L"New", [this](nana::menu::item_proxy& ip)
+			{
+				//if (_m_ask_save())
+					//textbox_.reset();
+			});
 		}
 
 		void add(const std::string& label_caption,
@@ -180,6 +196,8 @@ namespace windy {
 		std::vector<std::shared_ptr<nana::label> > labels;
 		std::vector<std::shared_ptr<nana::textbox> > textboxes;
 		std::vector<std::shared_ptr<nana::button> > buttons;
+
+		std::shared_ptr<nana::menubar> _menu_bar;
 
 
 	};

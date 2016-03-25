@@ -41,6 +41,24 @@ namespace windy {
 
 			return std::string(name.end() - 4, name.end());
 		}
+
+		static std::string generate_temp_path() {
+
+			auto id = uuid::generate();
+
+			auto temp_path = boost::filesystem::temp_directory_path();
+
+			temp_path /= id;
+
+			auto path = temp_path.string();
+
+			return path;
+
+		}
+
+		static void remove(const std::string& path) {
+			boost::filesystem::remove(path);
+		}
 	};
 
 }

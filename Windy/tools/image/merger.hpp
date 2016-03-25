@@ -8,9 +8,14 @@
 #define png_infopp_NULL (png_infopp)NULL
 #define int_p_NULL (int*)NULL
 
+#include "boost/iostreams/stream.hpp"
+#include "boost/iostreams/device/array.hpp"
+
+#include "boost/archive/binary_iarchive.hpp"
+
 #include "boost/gil/image.hpp"
 #include "boost/gil/typedefs.hpp"
-#include "boost/gil/extension/io/png_io.hpp"
+#include "boost/gil/extension/io_new/png_all.hpp"
 #include "boost/gil/extension/numeric/sampler.hpp"
 #include "boost/gil/extension/numeric/resample.hpp"
 
@@ -29,6 +34,8 @@
 #include "tools/filesystem/path.hpp"
 
 
+#include "tools/crypto/z64.hpp"
+
 namespace windy {
 
 	class merger {
@@ -40,7 +47,7 @@ namespace windy {
 
 			auto merged_output = merge_from_file(input);
 
-			boost::gil::png_write_view(output, boost::gil::const_view(*merged_output));
+			boost::gil::write_view(output, boost::gil::const_view(*merged_output), boost::gil::png_tag());
 
 			return 0;
 		}
@@ -52,13 +59,24 @@ namespace windy {
 			auto raw_name = path::raw_name(input);
 
 			// open the archive
-			std::ifstream ifs(input);
-			boost::archive::text_iarchive ia(ifs);
+			std::ifstream input_file(input, std::ios::binary);
+			// copies all data into buffer
+			std::string z_data((
+				std::istreambuf_iterator<char>(input_file)),
+				(std::istreambuf_iterator<char>()));
+
+			auto archive_data = z::decompress_from(z_data);
+			
+			std::stringstream archive_input_stream;
+
+			archive_input_stream << archive_data;
+
+			boost::archive::binary_iarchive input_archive(archive_input_stream);
 
 			wxt_image container(0, 0);
 
 			// restore the wxt_image from the archive
-			ia >> container;
+			input_archive >> container;
 
 			auto merged_output = std::make_shared<
 				boost::gil::image<boost::gil::rgba8_pixel_t,
@@ -73,7 +91,7 @@ namespace windy {
 					mmap_allocator<unsigned char> > img_segment;
 				try {
 
-					boost::filesystem::path p(input);
+					/*boost::filesystem::path p(input);
 
 					auto directory = p.parent_path();
 
@@ -86,7 +104,15 @@ namespace windy {
 
 					directory /= segment_path;
 
-					boost::gil::png_read_image(directory.string(), img_segment);
+					boost::gil::read_image(directory.string(), img_segment, boost::gil::png_tag());*/
+
+//@NOTE decompression from each segment data should be done here if compression was done like that
+					std::stringstream segment_input_stream;
+						
+					segment_input_stream << segment.data();
+
+					boost::gil::read_image(segment_input_stream, img_segment, boost::gil::png_tag());
+
 				}
 				catch (boost::exception & ex) {
 					std::cerr << boost::diagnostic_information_what(ex) << std::endl;

@@ -19,6 +19,9 @@
     <Filter Include="tools\crypto">
       <UniqueIdentifier>{9968b486-e175-418a-ab12-9cb160cf572b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="tools\image">
+      <UniqueIdentifier>{86170454-7fd4-4a15-b622-b0b31b117365}</UniqueIdentifier>
+    </Filter>
     <Filter Include="tools\tmx">
       <UniqueIdentifier>{204571c8-037b-443f-9a80-5e9a37cc1318}</UniqueIdentifier>
     </Filter>
@@ -28,14 +31,38 @@
     <Filter Include="tools\memory">
       <UniqueIdentifier>{ea5ef7a0-7dec-401f-9dbf-513f58695923}</UniqueIdentifier>
     </Filter>
-    <Filter Include="tools\image">
-      <UniqueIdentifier>{cc4fe5ab-b585-4fc7-b1df-05b96f17bd26}</UniqueIdentifier>
+    <Filter Include="tools\gui">
+      <UniqueIdentifier>{2a572fd1-6caf-4985-a000-80855da4f55c}</UniqueIdentifier>
     </Filter>
     <Filter Include="tools\image\structures">
-      <UniqueIdentifier>{d24680e6-2cc4-476c-8eab-e224b8945c38}</UniqueIdentifier>
+      <UniqueIdentifier>{35b950ab-29b5-4511-a63f-76f8f3543e76}</UniqueIdentifier>
     </Filter>
     <Filter Include="tools\filesystem">
-      <UniqueIdentifier>{fdc8f49c-7c62-4023-8e80-c7a2b954abeb}</UniqueIdentifier>
+      <UniqueIdentifier>{a236472e-d4d3-4ebc-91fa-87e2b9087f5d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools\project">
+      <UniqueIdentifier>{4eb2eff6-7517-4298-a273-22c9d3a2402f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tools\project\structures">
+      <UniqueIdentifier>{9b6ccd67-dc91-43d6-aac0-eeba6593efcd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core">
+      <UniqueIdentifier>{cc12061c-2422-418c-acec-294cc8603328}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\animation">
+      <UniqueIdentifier>{1926eeb8-98b4-49d0-948e-88b9048364a1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\animation\back_end">
+      <UniqueIdentifier>{64360c98-b75e-4fd7-a0e7-fb57c132fb4a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\animation\front_end">
+      <UniqueIdentifier>{bb8a0376-e421-4f68-8ff0-9570032aaf8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\animation\types">
+      <UniqueIdentifier>{89621df0-3057-49e4-92eb-d48e12713667}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="core\forms">
+      <UniqueIdentifier>{68b8f881-fad8-4e9a-9c44-a2d61c172c77}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -44,6 +71,9 @@
   <ItemGroup>
     <ClInclude Include="tools\crypto\sha256.hpp">
       <Filter>tools\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="tools\image\resizer.hpp">
+      <Filter>tools\image</Filter>
     </ClInclude>
     <ClInclude Include="tools\tmx\tmx_converter.hpp">
       <Filter>tools\tmx</Filter>
@@ -69,10 +99,10 @@
     <ClInclude Include="tools\memory\mmap_pool.hpp">
       <Filter>tools\memory</Filter>
     </ClInclude>
-    <ClInclude Include="tools\image\merger.hpp">
-      <Filter>tools\image</Filter>
+    <ClInclude Include="tools\gui\functional_form.hpp">
+      <Filter>tools\gui</Filter>
     </ClInclude>
-    <ClInclude Include="tools\image\resizer.hpp">
+    <ClInclude Include="tools\image\merger.hpp">
       <Filter>tools\image</Filter>
     </ClInclude>
     <ClInclude Include="tools\image\cropper.hpp">
@@ -87,6 +117,60 @@
     <ClInclude Include="tools\filesystem\path.hpp">
       <Filter>tools\filesystem</Filter>
     </ClInclude>
+    <ClInclude Include="tools\crypto\z64.hpp">
+      <Filter>tools\crypto</Filter>
+    </ClInclude>
+    <ClInclude Include="tools\image\mmap_image.hpp">
+      <Filter>tools\image</Filter>
+    </ClInclude>
+    <ClInclude Include="tools\project\structures\wxp.hpp">
+      <Filter>tools\project\structures</Filter>
+    </ClInclude>
+    <ClInclude Include="core\animation\types\matrix_size.hpp">
+      <Filter>core\animation\types</Filter>
+    </ClInclude>
+    <ClInclude Include="core\animation\types\timeline_frame.hpp">
+      <Filter>core\animation\types</Filter>
+    </ClInclude>
+    <ClInclude Include="core\animation\front_end\front_end_buffer.hpp">
+      <Filter>core\animation\front_end</Filter>
+    </ClInclude>
+    <ClInclude Include="core\animation\back_end\back_end_buffer.hpp">
+      <Filter>core\animation\back_end</Filter>
+    </ClInclude>
+    <ClInclude Include="core\animation\back_end\back_end_timeline.hpp">
+      <Filter>core\animation\back_end</Filter>
+    </ClInclude>
+    <ClInclude Include="core\forms\app_form.hpp">
+      <Filter>core\forms</Filter>
+    </ClInclude>
+    <ClInclude Include="core\forms\project_explorer_form.hpp">
+      <Filter>core\forms</Filter>
+    </ClInclude>
+    <ClInclude Include="core\forms\properties_form.hpp">
+      <Filter>core\forms</Filter>
+    </ClInclude>
+    <ClInclude Include="core\forms\timeline_form.hpp">
+      <Filter>core\forms</Filter>
+    </ClInclude>
+    <ClInclude Include="core\animation\front_end\front_end_component.hpp">
+      <Filter>core\animation\front_end</Filter>
+    </ClInclude>
+    <ClInclude Include="core\animation\front_end\front_end_animation.hpp">
+      <Filter>core\animation\front_end</Filter>
+    </ClInclude>
+    <ClInclude Include="core\animation\front_end\front_end_composition.hpp">
+      <Filter>core\animation\front_end</Filter>
+    </ClInclude>
+    <ClInclude Include="core\animation\front_end\front_end_background.hpp">
+      <Filter>core\animation\front_end</Filter>
+    </ClInclude>
+    <ClInclude Include="core\animation\front_end\front_end_scene.hpp">
+      <Filter>core\animation\front_end</Filter>
+    </ClInclude>
+    <ClInclude Include="core\forms\mappings_form.hpp">
+      <Filter>core\forms</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="tools\tmx\tilemap.cpp">
@@ -100,6 +184,9 @@
     </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="core\animation\back_end\back_end_buffer.cpp">
+      <Filter>core\animation\back_end</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

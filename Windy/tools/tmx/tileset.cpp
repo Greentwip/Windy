@@ -4,7 +4,7 @@
 
 #include "boost/gil/image.hpp"
 #include "boost/gil/typedefs.hpp"
-#include "boost/gil/extension/io/png_io.hpp"
+#include "boost/gil/extension/io_new/png_all.hpp"
 #include "boost/gil/extension/numeric/sampler.hpp"
 #include "boost/gil/extension/numeric/resample.hpp"
 
@@ -109,7 +109,7 @@ void windy::tileset::extrude() {
 }
 
 void windy::tileset::save(const std::string& path) {
-	boost::gil::png_write_view(path, boost::gil::const_view(*texture));
+	boost::gil::write_view(path, boost::gil::const_view(*texture), boost::gil::png_tag());
 }
 
 unsigned int windy::tileset::validate_tileset() {

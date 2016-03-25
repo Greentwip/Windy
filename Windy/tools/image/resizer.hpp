@@ -4,13 +4,11 @@
 #include <vector>
 #include <string>
 
-
 #define png_infopp_NULL (png_infopp)NULL
 #define int_p_NULL (int*)NULL
 
-#include "boost/gil/image.hpp"
 #include "boost/gil/typedefs.hpp"
-#include "boost/gil/extension/io/png_io.hpp"
+#include "boost/gil/extension/io_new/png_all.hpp"
 #include "boost/gil/extension/numeric/sampler.hpp"
 #include "boost/gil/extension/numeric/resample.hpp"
 
@@ -23,7 +21,7 @@
 
 #include "boost/lexical_cast.hpp"
 
-#include "tools/memory/mmap_allocator.hpp"
+#include "tools/image/mmap_image.hpp"
 
 namespace windy {
 
@@ -37,13 +35,10 @@ namespace windy {
 			int design_resolution = atoi(arguments[2].c_str());
 			int target_design_resolution = atoi(arguments[3].c_str());
 
-			boost::gil::image
-			<boost::gil::rgba8_pixel_t,
-			true,
-			mmap_allocator<unsigned char> > img;
+			auto image = std::make_shared<mmap_image>();
 
 			try {
-				boost::gil::png_read_and_convert_image(input, img);
+				boost::gil::read_image(input, image->raw(), boost::gil::png_tag());
 			}
 			catch (boost::exception & ex) {
 				std::cerr << boost::diagnostic_information_what(ex) << std::endl;
@@ -51,8 +46,8 @@ namespace windy {
 
 			double scale = double(target_design_resolution) / double(design_resolution);
 
-			auto width = uint64_t(std::ceil(long double(img.width()) * scale));
-			auto height = uint64_t(std::ceil(long double(img.height()) * scale));
+			auto width = uint64_t(std::ceil(long double(image->raw().width()) * scale));
+			auto height = uint64_t(std::ceil(long double(image->raw().height()) * scale));
 
 			// this defaults to the minimum tile size we can process with good performance
 
@@ -66,11 +61,11 @@ namespace windy {
 				true,
 				mmap_allocator<unsigned char> > hd_tex(width, height);
 
-			boost::gil::resize_view(boost::gil::const_view(img),
+			boost::gil::resize_view(boost::gil::const_view(image->raw()),
 									boost::gil::view(hd_tex),
 									boost::gil::nearest_neighbor_sampler());
 
-			boost::gil::png_write_view(output, boost::gil::const_view(hd_tex));
+			boost::gil::write_view(output, boost::gil::const_view(hd_tex), boost::gil::png_tag());
 
 			return 0;
 		}

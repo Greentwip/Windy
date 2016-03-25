@@ -10,87 +10,131 @@
 
 namespace windy
 {
-	std::string base64(std::vector<unsigned char>& data)
-	{
-		using namespace boost::archive::iterators;
-
-		// Pad with 0 until a multiple of 3
-		unsigned int paddedCharacters = 0;
-		while (data.size() % 3 != 0)
+	class base64 {
+	public:
+		static std::string from(std::vector<unsigned char>& data)
 		{
-			paddedCharacters++;
-			data.push_back(0x00);
+			using namespace boost::archive::iterators;
+
+			// Pad with 0 until a multiple of 3
+			unsigned int paddedCharacters = 0;
+			while (data.size() % 3 != 0)
+			{
+				paddedCharacters++;
+				data.push_back(0x00);
+			}
+
+			// Crazy typedef black magic
+			typedef
+				insert_linebreaks<         // insert line breaks every 76 characters
+				base64_from_binary<    // convert binary values to base64 characters
+				transform_width<   // retrieve 6 bit integers from a sequence of 8 bit bytes
+				const unsigned char *
+				, 6
+				, 8
+				>
+				>
+				, 76
+				>
+				base64Iterator; // compose all the above operations in to a new iterator
+
+								// Encode the buffer and create a string
+			std::string encodedString(
+				base64Iterator(&data[0]),
+				base64Iterator(&data[0] + (data.size() - paddedCharacters)));
+
+			// Add '=' for each padded character used
+			for (unsigned int i = 0; i < paddedCharacters; i++)
+			{
+				encodedString.push_back('=');
+			}
+
+			return encodedString;
 		}
 
-		// Crazy typedef black magic
-		typedef
-			insert_linebreaks<         // insert line breaks every 76 characters
-			base64_from_binary<    // convert binary values to base64 characters
-			transform_width<   // retrieve 6 bit integers from a sequence of 8 bit bytes
-			const unsigned char *
-			, 6
-			, 8
-			>
-			>
-			, 76
-			>
-			base64Iterator; // compose all the above operations in to a new iterator
-
-							// Encode the buffer and create a string
-		std::string encodedString(
-			base64Iterator(&data[0]),
-			base64Iterator(&data[0] + (data.size() - paddedCharacters)));
-
-		// Add '=' for each padded character used
-		for (unsigned int i = 0; i < paddedCharacters; i++)
+		static std::string from(std::vector<char>& data)
 		{
-			encodedString.push_back('=');
+			using namespace boost::archive::iterators;
+
+			// Pad with 0 until a multiple of 3
+			unsigned int paddedCharacters = 0;
+			while (data.size() % 3 != 0)
+			{
+				paddedCharacters++;
+				data.push_back(0x00);
+			}
+
+			// Crazy typedef black magic
+			typedef
+				insert_linebreaks<         // insert line breaks every 76 characters
+				base64_from_binary<    // convert binary values to base64 characters
+				transform_width<   // retrieve 6 bit integers from a sequence of 8 bit bytes
+				const unsigned char *
+				, 6
+				, 8
+				>
+				>
+				, 76
+				>
+				base64Iterator; // compose all the above operations in to a new iterator
+
+								// Encode the buffer and create a string
+			std::string encodedString(
+				base64Iterator(&data[0]),
+				base64Iterator(&data[0] + (data.size() - paddedCharacters)));
+
+			// Add '=' for each padded character used
+			for (unsigned int i = 0; i < paddedCharacters; i++)
+			{
+				encodedString.push_back('=');
+			}
+
+			return encodedString;
 		}
 
-		return encodedString;
-	}
-
-	std::string base64(std::string& data)
-	{
-		using namespace boost::archive::iterators;
-
-		// Pad with 0 until a multiple of 3
-		unsigned int paddedCharacters = 0;
-		while (data.size() % 3 != 0)
+		static std::string from(std::string& data)
 		{
-			paddedCharacters++;
-			data.append("0");
+			using namespace boost::archive::iterators;
+
+			// Pad with 0 until a multiple of 3
+			unsigned int paddedCharacters = 0;
+			while (data.size() % 3 != 0)
+			{
+				paddedCharacters++;
+				data.append("0");
+			}
+
+			//data.resize(data.size() + paddedCharacters);
+
+			// Crazy typedef black magic
+			typedef
+				insert_linebreaks<         // insert line breaks every 76 characters
+				base64_from_binary<    // convert binary values to base64 characters
+				transform_width<   // retrieve 6 bit integers from a sequence of 8 bit bytes
+				const unsigned char *
+				, 6
+				, 8
+				>
+				>
+				, 76
+				>
+				base64Iterator; // compose all the above operations in to a new iterator
+
+								// Encode the buffer and create a string
+			std::string encodedString(
+				base64Iterator(&data[0]),
+				base64Iterator(&data[0] + (data.size() - paddedCharacters)));
+
+			// Add '=' for each padded character used
+			for (unsigned int i = 0; i < paddedCharacters; i++)
+			{
+				encodedString.push_back('=');
+			}
+
+			return encodedString;
 		}
-
-		//data.resize(data.size() + paddedCharacters);
-
-		// Crazy typedef black magic
-		typedef
-			insert_linebreaks<         // insert line breaks every 76 characters
-			base64_from_binary<    // convert binary values to base64 characters
-			transform_width<   // retrieve 6 bit integers from a sequence of 8 bit bytes
-			const unsigned char *
-			, 6
-			, 8
-			>
-			>
-			, 76
-			>
-			base64Iterator; // compose all the above operations in to a new iterator
-
-							// Encode the buffer and create a string
-		std::string encodedString(
-			base64Iterator(&data[0]),
-			base64Iterator(&data[0] + (data.size() - paddedCharacters)));
-
-		// Add '=' for each padded character used
-		for (unsigned int i = 0; i < paddedCharacters; i++)
-		{
-			encodedString.push_back('=');
-		}
-
-		return encodedString;
-	}
+	};
+	
 }
 
 

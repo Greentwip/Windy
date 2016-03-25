@@ -10,7 +10,7 @@
 
 #include "boost/gil/image.hpp"
 #include "boost/gil/typedefs.hpp"
-#include "boost/gil/extension/io/png_io.hpp"
+#include "boost/gil/extension/io_new/png_all.hpp"
 #include "boost/gil/extension/numeric/sampler.hpp"
 #include "boost/gil/extension/numeric/resample.hpp"
 
@@ -27,8 +27,6 @@
 #include "tools/memory/mmap_allocator.hpp"
 #include "tools/memory/mmap_pool.hpp"
 #include "tools/filesystem/path.hpp"
-
-
 
 template <template<class, class, class...> class C, typename K, typename V, typename... Args>
 bool GetWithDef(C<K, V, Args...>& m, K const& key, V& value)
@@ -113,7 +111,7 @@ int windy::tmx_converter::run(const std::vector<std::string>& args){
 		// from png
 		try {
 			//boost::gil::png_read_and_convert_image(source, *image);
-			boost::gil::png_read_image(input, *image);
+			boost::gil::read_image(input, *image, boost::gil::png_tag());
 		}
 		catch (boost::exception & ex) {
 			std::cerr << boost::diagnostic_information_what(ex) << std::endl;
