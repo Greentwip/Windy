@@ -84,10 +84,10 @@
 
 //Support for PNG
 //	Comment it to disable the feature of support for PNG.
-//#define NANA_ENABLE_PNG
+#define NANA_ENABLE_PNG
 #if defined(NANA_ENABLE_PNG)
 	//Comment it to use libpng from operating system.
-	#define NANA_LIBPNG
+	//#define NANA_LIBPNG
 #endif
 
 

@@ -3354,8 +3354,11 @@ namespace nana
 									else
 										lister.select_for_all(false);	//cancel all selections
 								}
-								else
-									sel = !item_proxy(essence_, index_pair (item_pos.cat, lister.absolute(item_pos))).selected();
+								else {
+									if (item_ptr) {
+										sel = !item_proxy(essence_, index_pair(item_pos.cat, lister.absolute(item_pos))).selected();
+									}									
+								}
 
 								if(item_ptr)
 								{

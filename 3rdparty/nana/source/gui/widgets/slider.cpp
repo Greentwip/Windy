@@ -442,8 +442,10 @@ namespace nana
 				{
 					if(_m_scale())
 					{
-						auto cmpvalue = static_cast<int>(attr_.vcur);
-						attr_.vcur = (attr_.pos * attr_.vmax / _m_scale());
+						// gt fix for precise emitted values
+						// shall static increments allow floating/double values?
+						int cmpvalue = std::round(attr_.vcur);
+						attr_.vcur = std::round((attr_.pos * attr_.vmax / _m_scale()));
 						if (cmpvalue != static_cast<int>(attr_.vcur))
 							_m_emit_value_changed();
 					}
@@ -451,10 +453,19 @@ namespace nana
 
 				void _m_mk_slider_pos_by_value()
 				{
-					attr_.pos = double(_m_scale()) * attr_.vcur / attr_.vmax;
+					
+					// if(this->_static_steps){
+					attr_.pos = double(_m_scale()) / attr_.vmax * std::round(attr_.vcur);
 
-					if(slider_state_.trace == slider_state_.TraceNone)
+					//} else {
+
+						//attr_.pos = double(_m_scale()) * attr_.vcur / attr_.vmax;
+
+					//}
+
+					if (slider_state_.trace == slider_state_.TraceNone)
 						attr_.adorn_pos = attr_.pos;
+
 				}
 
 				unsigned _m_value_by_pos(double pos) const
@@ -604,11 +615,14 @@ namespace nana
 					{
 						bool mkdir = impl_->set_slider_pos(arg.pos);
 						impl_->set_slider_refpos(arg.pos);
-						if(mkdir)
-						{
-							impl_->draw();
-							API::lazy_refresh();
-						}
+						//if(!this->_static_steps){
+							//if (mkdir)
+							//{
+							//	impl_->draw();
+							//	API::lazy_refresh();
+							//}
+						//}
+
 					}
 				}
 

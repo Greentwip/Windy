@@ -106,7 +106,7 @@
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;_SCL_SECURE_NO_WARNINGS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)/3rdparty/boost;$(SolutionDir)/3rdparty/zlib;$(SolutionDir)/3rdparty/png;$(SolutionDir)/3rdparty/xml;$(SolutionDir)/3rdparty/rapidxml;$(SolutionDir)/3rdparty/nana/include;$(ProjectDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/3rdparty/boost;$(SolutionDir)/3rdparty/zlib;$(SolutionDir)/3rdparty/png;$(SolutionDir)/3rdparty/xml;$(SolutionDir)/3rdparty/rapidxml;$(SolutionDir)/3rdparty/nana/include;$(ProjectDir)/include</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -148,7 +148,7 @@
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;_CRT_SECURE_NO_WARNINGS;_UNICODE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <SDLCheck>true</SDLCheck>
-      <AdditionalIncludeDirectories>$(SolutionDir)/3rdparty/boost;$(SolutionDir)/3rdparty/zlib;$(SolutionDir)/3rdparty/png;$(SolutionDir)/3rdparty/xml;$(SolutionDir)/3rdparty/rapidxml;$(SolutionDir)/3rdparty/nana/include;$(ProjectDir)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(SolutionDir)/3rdparty/boost;$(SolutionDir)/3rdparty/zlib;$(SolutionDir)/3rdparty/png;$(SolutionDir)/3rdparty/xml;$(SolutionDir)/3rdparty/rapidxml;$(SolutionDir)/3rdparty/nana/include;$(ProjectDir)/include</AdditionalIncludeDirectories>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
     </ClCompile>
     <Link>
@@ -168,47 +168,92 @@
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="core\animation\back_end\back_end_buffer.hpp" />
-    <ClInclude Include="core\animation\back_end\back_end_timeline.hpp" />
-    <ClInclude Include="core\animation\front_end\front_end_animation.hpp" />
-    <ClInclude Include="core\animation\front_end\front_end_composition.hpp" />
-    <ClInclude Include="core\animation\front_end\front_end_component.hpp" />
-    <ClInclude Include="core\animation\front_end\front_end_buffer.hpp" />
-    <ClInclude Include="core\animation\front_end\front_end_background.hpp" />
-    <ClInclude Include="core\animation\front_end\front_end_scene.hpp" />
-    <ClInclude Include="core\animation\types\matrix_size.hpp" />
-    <ClInclude Include="core\animation\types\timeline_frame.hpp" />
-    <ClInclude Include="core\forms\app_form.hpp" />
-    <ClInclude Include="core\forms\mappings_form.hpp" />
-    <ClInclude Include="core\forms\project_explorer_form.hpp" />
-    <ClInclude Include="core\forms\properties_form.hpp" />
-    <ClInclude Include="core\forms\timeline_form.hpp" />
-    <ClInclude Include="tools\crypto\base64.hpp" />
-    <ClInclude Include="tools\crypto\sha256.hpp" />
-    <ClInclude Include="tools\crypto\z64.hpp" />
-    <ClInclude Include="tools\filesystem\path.hpp" />
-    <ClInclude Include="tools\gui\functional_form.hpp" />
-    <ClInclude Include="tools\image\cropper.hpp" />
-    <ClInclude Include="tools\image\merger.hpp" />
-    <ClInclude Include="tools\image\mmap_image.hpp" />
-    <ClInclude Include="tools\image\resizer.hpp" />
-    <ClInclude Include="tools\image\structures\wxt.hpp" />
-    <ClInclude Include="tools\memory\mmap_allocator.hpp" />
-    <ClInclude Include="tools\memory\mmap_pool.hpp" />
-    <ClInclude Include="tools\number\digits.hpp" />
-    <ClInclude Include="tools\number\uuid.hpp" />
-    <ClInclude Include="tools\project\structures\wxp.hpp" />
-    <ClInclude Include="tools\tmx\tilelayer.hpp" />
-    <ClInclude Include="tools\tmx\tilemap.hpp" />
-    <ClInclude Include="tools\tmx\tileset.hpp" />
-    <ClInclude Include="tools\tmx\tmx_converter.hpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="core\animation\back_end\back_end_buffer.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="tools\tmx\tilemap.cpp" />
-    <ClCompile Include="tools\tmx\tileset.cpp" />
-    <ClCompile Include="tools\tmx\tmx_converter.cpp" />
+    <ClCompile Include="main.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="source\app.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="source\core\2d\drawable.cpp" />
+    <ClCompile Include="source\core\2d\layer.cpp" />
+    <ClCompile Include="source\core\2d\node.cpp" />
+    <ClCompile Include="source\core\2d\texture.cpp" />
+    <ClCompile Include="source\core\animation\frame.cpp" />
+    <ClCompile Include="source\core\animation\frame_set.cpp" />
+    <ClCompile Include="source\core\animation\timeline.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="source\core\animation\trigger.cpp" />
+    <ClCompile Include="source\core\content\assets.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="source\core\content\collection.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="source\core\content\compositable.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="source\core\content\composition.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="source\core\content\container.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="source\core\content\directory.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="source\core\content\edition.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="source\core\content\environment.cpp" />
+    <ClCompile Include="source\core\content\game.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="source\core\content\graphicable.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="source\core\content\group.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="source\core\content\groupable.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="source\core\content\instance.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="source\core\content\instance_creator.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="source\core\content\item.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="source\core\content\mappings.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="source\core\content\project.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="source\core\content\properties.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="source\core\content\sprite.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="source\core\filesystem\path.cpp" />
+    <ClCompile Include="source\core\geometry\rectangle.cpp" />
+    <ClCompile Include="source\core\image\mmap_image.cpp" />
+    <ClCompile Include="source\core\image\pixel_inserters.cpp" />
+    <ClCompile Include="source\core\number\digits.cpp" />
+    <ClCompile Include="source\core\number\uuid.cpp" />
+    <ClCompile Include="source\program\commands\anchor_command.cpp" />
+    <ClCompile Include="source\program\commands\drag_command.cpp" />
+    <ClCompile Include="source\program\commands\movement_command.cpp" />
+    <ClCompile Include="source\program\states\scene_state.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClCompile>
+    <ClCompile Include="source\program\states\state.cpp">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\windy.bmp">
@@ -217,6 +262,49 @@
     <Image Include="res\windy.ico">
       <DeploymentContent>true</DeploymentContent>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\app.hpp" />
+    <ClInclude Include="include\core\2d\drawable.hpp" />
+    <ClInclude Include="include\core\2d\layer.hpp" />
+    <ClInclude Include="include\core\2d\node.hpp" />
+    <ClInclude Include="include\core\2d\texture.hpp" />
+    <ClInclude Include="include\core\animation\frame.hpp" />
+    <ClInclude Include="include\core\animation\frame_set.hpp" />
+    <ClInclude Include="include\core\animation\timeline.hpp" />
+    <ClInclude Include="include\core\animation\trigger.hpp" />
+    <ClInclude Include="include\core\content\assets.hpp" />
+    <ClInclude Include="include\core\content\collection.hpp" />
+    <ClInclude Include="include\core\content\compositable.hpp" />
+    <ClInclude Include="include\core\content\composition.hpp" />
+    <ClInclude Include="include\core\content\container.hpp" />
+    <ClInclude Include="include\core\content\directory.hpp" />
+    <ClInclude Include="include\core\content\edition.hpp" />
+    <ClInclude Include="include\core\content\environment.hpp" />
+    <ClInclude Include="include\core\content\game.hpp" />
+    <ClInclude Include="include\core\content\graphicable.hpp" />
+    <ClInclude Include="include\core\content\group.hpp" />
+    <ClInclude Include="include\core\content\groupable.hpp" />
+    <ClInclude Include="include\core\content\instance.hpp" />
+    <ClInclude Include="include\core\content\instance_creator.hpp" />
+    <ClInclude Include="include\core\content\item.hpp" />
+    <ClInclude Include="include\core\content\mappings.hpp" />
+    <ClInclude Include="include\core\content\project.hpp" />
+    <ClInclude Include="include\core\content\properties.hpp" />
+    <ClInclude Include="include\core\content\sprite.hpp" />
+    <ClInclude Include="include\core\filesystem\path.hpp" />
+    <ClInclude Include="include\core\geometry\rectangle.hpp" />
+    <ClInclude Include="include\core\image\mmap_image.hpp" />
+    <ClInclude Include="include\core\image\pixel_inserters.hpp" />
+    <ClInclude Include="include\core\memory\mmap_allocator.hpp" />
+    <ClInclude Include="include\core\memory\mmap_pool.hpp" />
+    <ClInclude Include="include\core\number\digits.hpp" />
+    <ClInclude Include="include\core\number\uuid.hpp" />
+    <ClInclude Include="include\program\commands\anchor_command.hpp" />
+    <ClInclude Include="include\program\commands\drag_command.hpp" />
+    <ClInclude Include="include\program\commands\movement_command.hpp" />
+    <ClInclude Include="include\program\states\scene_state.hpp" />
+    <ClInclude Include="include\program\states\state.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

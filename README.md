@@ -18,7 +18,7 @@ You must specify the design resolution width that was used to draw the texture y
 1920 / design resolution width.
 
 ### For tmx:
-Specify the tile size and the texture/wxt file you're planning to convert into a TMX map.
+Specify the tile size and the texture you're planning to convert into a TMX map.
 
 You need to specify a folder because it will split in many tmx maps (this is to help the renderers that have limitations over the amount of tiles that can be drawn, usually it is 128x128 tiles).
 
@@ -40,7 +40,6 @@ If you're willing to port the toolset to another operating system take in consid
 * Boost needs to be implemented with some sort of automated script; by the moment we use precompiled libraries.  
 * The numeric extension for Boost was modified so that it could accept large texture dimensions, stick to it, make a patch for the sampler.
 * From Boost we use: system, filesystem, serialization, zlib, and iostreams as compiled libraries, everything else is header-only, like lexical_cast, uuid and gil.
-* File dialogs will work with any platform as long as we are able to improve the library.
 * C++14 is required.
 * x64 is a must. Or have the solution for x86 and memory mapped files.
 

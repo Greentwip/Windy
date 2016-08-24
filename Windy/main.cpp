@@ -1,9 +1,13 @@
-#include "core/forms/app_form.hpp"
+#include "app.hpp"
+
+#include "nana/gui/wvl.hpp"
 
 int __stdcall WinMain(void*, void*, char* cmdLine, int)
 {
 
-	windy::app_form app;
-	app.display();
+	windy::app app;
+	app.show();
+	nana::exec();
+
 	return 0;
 }

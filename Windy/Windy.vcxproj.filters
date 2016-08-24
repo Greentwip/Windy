@@ -13,180 +13,199 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="tools">
-      <UniqueIdentifier>{ac5c9dab-7876-49b8-87f3-06d9d2fc7bea}</UniqueIdentifier>
+    <Filter Include="Header Files\core">
+      <UniqueIdentifier>{951bf9a9-e261-4615-bdb2-f0f2db1b1e5e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="tools\crypto">
-      <UniqueIdentifier>{9968b486-e175-418a-ab12-9cb160cf572b}</UniqueIdentifier>
+    <Filter Include="Header Files\core\2d">
+      <UniqueIdentifier>{a02c6887-112b-4796-9fc0-4c4dccdd2039}</UniqueIdentifier>
     </Filter>
-    <Filter Include="tools\image">
-      <UniqueIdentifier>{86170454-7fd4-4a15-b622-b0b31b117365}</UniqueIdentifier>
+    <Filter Include="Header Files\core\animation">
+      <UniqueIdentifier>{bc34aeee-25b1-4768-829b-e147f124ae77}</UniqueIdentifier>
     </Filter>
-    <Filter Include="tools\tmx">
-      <UniqueIdentifier>{204571c8-037b-443f-9a80-5e9a37cc1318}</UniqueIdentifier>
+    <Filter Include="Header Files\core\content">
+      <UniqueIdentifier>{eae54e85-b27e-4050-99ad-bfafe2d2f0c1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="tools\number">
-      <UniqueIdentifier>{0b79f84c-eeb2-4c7e-9d14-46583327247a}</UniqueIdentifier>
+    <Filter Include="Header Files\core\filesystem">
+      <UniqueIdentifier>{bc3cf753-f503-4029-a6ac-9935ac3b320a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="tools\memory">
-      <UniqueIdentifier>{ea5ef7a0-7dec-401f-9dbf-513f58695923}</UniqueIdentifier>
+    <Filter Include="Header Files\core\image">
+      <UniqueIdentifier>{83d7b0b5-925e-4189-b29a-be7f3472492f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="tools\gui">
-      <UniqueIdentifier>{2a572fd1-6caf-4985-a000-80855da4f55c}</UniqueIdentifier>
+    <Filter Include="Header Files\core\memory">
+      <UniqueIdentifier>{1132ac85-dbc0-4341-9417-c300444747ee}</UniqueIdentifier>
     </Filter>
-    <Filter Include="tools\image\structures">
-      <UniqueIdentifier>{35b950ab-29b5-4511-a63f-76f8f3543e76}</UniqueIdentifier>
+    <Filter Include="Source Files\core">
+      <UniqueIdentifier>{4aa274e1-ffc8-438d-a22c-5cd719954ef0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="tools\filesystem">
-      <UniqueIdentifier>{a236472e-d4d3-4ebc-91fa-87e2b9087f5d}</UniqueIdentifier>
+    <Filter Include="Source Files\core\2d">
+      <UniqueIdentifier>{22cf0ecb-1fc4-4e43-8300-39fca7cc5448}</UniqueIdentifier>
     </Filter>
-    <Filter Include="tools\project">
-      <UniqueIdentifier>{4eb2eff6-7517-4298-a273-22c9d3a2402f}</UniqueIdentifier>
+    <Filter Include="Source Files\core\animation">
+      <UniqueIdentifier>{ae9fabb0-8c98-4edb-9b32-ce68e7654f92}</UniqueIdentifier>
     </Filter>
-    <Filter Include="tools\project\structures">
-      <UniqueIdentifier>{9b6ccd67-dc91-43d6-aac0-eeba6593efcd}</UniqueIdentifier>
+    <Filter Include="Source Files\core\content">
+      <UniqueIdentifier>{47108b2b-df79-4f55-8750-6726142fb563}</UniqueIdentifier>
     </Filter>
-    <Filter Include="core">
-      <UniqueIdentifier>{cc12061c-2422-418c-acec-294cc8603328}</UniqueIdentifier>
+    <Filter Include="Source Files\core\filesystem">
+      <UniqueIdentifier>{02023b7b-bf17-43cf-9a3b-6802db600812}</UniqueIdentifier>
     </Filter>
-    <Filter Include="core\animation">
-      <UniqueIdentifier>{1926eeb8-98b4-49d0-948e-88b9048364a1}</UniqueIdentifier>
+    <Filter Include="Source Files\core\image">
+      <UniqueIdentifier>{6386d5d3-590b-4d0f-8677-c18de8ac02f5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="core\animation\back_end">
-      <UniqueIdentifier>{64360c98-b75e-4fd7-a0e7-fb57c132fb4a}</UniqueIdentifier>
+    <Filter Include="Source Files\core\number">
+      <UniqueIdentifier>{b65a0e5d-b560-4dde-a8b8-305e78d2d84b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="core\animation\front_end">
-      <UniqueIdentifier>{bb8a0376-e421-4f68-8ff0-9570032aaf8b}</UniqueIdentifier>
+    <Filter Include="Header Files\core\number">
+      <UniqueIdentifier>{00ef0ab6-90df-4048-a31c-f853395ae4d5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="core\animation\types">
-      <UniqueIdentifier>{89621df0-3057-49e4-92eb-d48e12713667}</UniqueIdentifier>
+    <Filter Include="Source Files\program">
+      <UniqueIdentifier>{8690cddc-e53e-4270-a3f8-0c52589bc266}</UniqueIdentifier>
     </Filter>
-    <Filter Include="core\forms">
-      <UniqueIdentifier>{68b8f881-fad8-4e9a-9c44-a2d61c172c77}</UniqueIdentifier>
+    <Filter Include="Header Files\program">
+      <UniqueIdentifier>{7284b752-639d-4782-8cce-89ed95857ffc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\program\commands">
+      <UniqueIdentifier>{657bffdc-4aaf-484b-94bc-c86e05bfe284}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\program\commands">
+      <UniqueIdentifier>{f56347f3-5aa2-41ad-80a2-461f6d289daa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\core\geometry">
+      <UniqueIdentifier>{c43033bc-ac4c-42a4-989f-ca60f9430801}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\core\geometry">
+      <UniqueIdentifier>{2438a8ae-876e-411a-903e-be9db6f57f91}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\program\states">
+      <UniqueIdentifier>{a40a2059-80bb-419a-97cd-1faaa3b57e4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\program\states">
+      <UniqueIdentifier>{905fc5e7-9ac9-43d8-a58c-69aaa05f6005}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <Text Include="ReadMe.txt" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="tools\crypto\sha256.hpp">
-      <Filter>tools\crypto</Filter>
-    </ClInclude>
-    <ClInclude Include="tools\image\resizer.hpp">
-      <Filter>tools\image</Filter>
-    </ClInclude>
-    <ClInclude Include="tools\tmx\tmx_converter.hpp">
-      <Filter>tools\tmx</Filter>
-    </ClInclude>
-    <ClInclude Include="tools\tmx\tilemap.hpp">
-      <Filter>tools\tmx</Filter>
-    </ClInclude>
-    <ClInclude Include="tools\tmx\tileset.hpp">
-      <Filter>tools\tmx</Filter>
-    </ClInclude>
-    <ClInclude Include="tools\tmx\tilelayer.hpp">
-      <Filter>tools\tmx</Filter>
-    </ClInclude>
-    <ClInclude Include="tools\number\uuid.hpp">
-      <Filter>tools\number</Filter>
-    </ClInclude>
-    <ClInclude Include="tools\number\digits.hpp">
-      <Filter>tools\number</Filter>
-    </ClInclude>
-    <ClInclude Include="tools\memory\mmap_allocator.hpp">
-      <Filter>tools\memory</Filter>
-    </ClInclude>
-    <ClInclude Include="tools\memory\mmap_pool.hpp">
-      <Filter>tools\memory</Filter>
-    </ClInclude>
-    <ClInclude Include="tools\gui\functional_form.hpp">
-      <Filter>tools\gui</Filter>
-    </ClInclude>
-    <ClInclude Include="tools\image\merger.hpp">
-      <Filter>tools\image</Filter>
-    </ClInclude>
-    <ClInclude Include="tools\image\cropper.hpp">
-      <Filter>tools\image</Filter>
-    </ClInclude>
-    <ClInclude Include="tools\image\structures\wxt.hpp">
-      <Filter>tools\image\structures</Filter>
-    </ClInclude>
-    <ClInclude Include="tools\crypto\base64.hpp">
-      <Filter>tools\crypto</Filter>
-    </ClInclude>
-    <ClInclude Include="tools\filesystem\path.hpp">
-      <Filter>tools\filesystem</Filter>
-    </ClInclude>
-    <ClInclude Include="tools\crypto\z64.hpp">
-      <Filter>tools\crypto</Filter>
-    </ClInclude>
-    <ClInclude Include="tools\image\mmap_image.hpp">
-      <Filter>tools\image</Filter>
-    </ClInclude>
-    <ClInclude Include="tools\project\structures\wxp.hpp">
-      <Filter>tools\project\structures</Filter>
-    </ClInclude>
-    <ClInclude Include="core\animation\types\matrix_size.hpp">
-      <Filter>core\animation\types</Filter>
-    </ClInclude>
-    <ClInclude Include="core\animation\types\timeline_frame.hpp">
-      <Filter>core\animation\types</Filter>
-    </ClInclude>
-    <ClInclude Include="core\animation\front_end\front_end_buffer.hpp">
-      <Filter>core\animation\front_end</Filter>
-    </ClInclude>
-    <ClInclude Include="core\animation\back_end\back_end_buffer.hpp">
-      <Filter>core\animation\back_end</Filter>
-    </ClInclude>
-    <ClInclude Include="core\animation\back_end\back_end_timeline.hpp">
-      <Filter>core\animation\back_end</Filter>
-    </ClInclude>
-    <ClInclude Include="core\forms\app_form.hpp">
-      <Filter>core\forms</Filter>
-    </ClInclude>
-    <ClInclude Include="core\forms\project_explorer_form.hpp">
-      <Filter>core\forms</Filter>
-    </ClInclude>
-    <ClInclude Include="core\forms\properties_form.hpp">
-      <Filter>core\forms</Filter>
-    </ClInclude>
-    <ClInclude Include="core\forms\timeline_form.hpp">
-      <Filter>core\forms</Filter>
-    </ClInclude>
-    <ClInclude Include="core\animation\front_end\front_end_component.hpp">
-      <Filter>core\animation\front_end</Filter>
-    </ClInclude>
-    <ClInclude Include="core\animation\front_end\front_end_animation.hpp">
-      <Filter>core\animation\front_end</Filter>
-    </ClInclude>
-    <ClInclude Include="core\animation\front_end\front_end_composition.hpp">
-      <Filter>core\animation\front_end</Filter>
-    </ClInclude>
-    <ClInclude Include="core\animation\front_end\front_end_background.hpp">
-      <Filter>core\animation\front_end</Filter>
-    </ClInclude>
-    <ClInclude Include="core\animation\front_end\front_end_scene.hpp">
-      <Filter>core\animation\front_end</Filter>
-    </ClInclude>
-    <ClInclude Include="core\forms\mappings_form.hpp">
-      <Filter>core\forms</Filter>
-    </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="tools\tmx\tilemap.cpp">
-      <Filter>tools\tmx</Filter>
-    </ClCompile>
-    <ClCompile Include="tools\tmx\tileset.cpp">
-      <Filter>tools\tmx</Filter>
-    </ClCompile>
-    <ClCompile Include="tools\tmx\tmx_converter.cpp">
-      <Filter>tools\tmx</Filter>
-    </ClCompile>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="core\animation\back_end\back_end_buffer.cpp">
-      <Filter>core\animation\back_end</Filter>
+    <ClCompile Include="source\core\number\digits.cpp">
+      <Filter>Source Files\core\number</Filter>
+    </ClCompile>
+    <ClCompile Include="source\core\number\uuid.cpp">
+      <Filter>Source Files\core\number</Filter>
+    </ClCompile>
+    <ClCompile Include="source\core\image\mmap_image.cpp">
+      <Filter>Source Files\core\image</Filter>
+    </ClCompile>
+    <ClCompile Include="source\core\image\pixel_inserters.cpp">
+      <Filter>Source Files\core\image</Filter>
+    </ClCompile>
+    <ClCompile Include="source\core\filesystem\path.cpp">
+      <Filter>Source Files\core\filesystem</Filter>
+    </ClCompile>
+    <ClCompile Include="source\core\content\assets.cpp">
+      <Filter>Source Files\core\content</Filter>
+    </ClCompile>
+    <ClCompile Include="source\core\content\collection.cpp">
+      <Filter>Source Files\core\content</Filter>
+    </ClCompile>
+    <ClCompile Include="source\core\content\compositable.cpp">
+      <Filter>Source Files\core\content</Filter>
+    </ClCompile>
+    <ClCompile Include="source\core\content\composition.cpp">
+      <Filter>Source Files\core\content</Filter>
+    </ClCompile>
+    <ClCompile Include="source\core\content\container.cpp">
+      <Filter>Source Files\core\content</Filter>
+    </ClCompile>
+    <ClCompile Include="source\core\content\directory.cpp">
+      <Filter>Source Files\core\content</Filter>
+    </ClCompile>
+    <ClCompile Include="source\core\content\edition.cpp">
+      <Filter>Source Files\core\content</Filter>
+    </ClCompile>
+    <ClCompile Include="source\core\content\game.cpp">
+      <Filter>Source Files\core\content</Filter>
+    </ClCompile>
+    <ClCompile Include="source\core\content\graphicable.cpp">
+      <Filter>Source Files\core\content</Filter>
+    </ClCompile>
+    <ClCompile Include="source\core\content\group.cpp">
+      <Filter>Source Files\core\content</Filter>
+    </ClCompile>
+    <ClCompile Include="source\core\content\groupable.cpp">
+      <Filter>Source Files\core\content</Filter>
+    </ClCompile>
+    <ClCompile Include="source\core\content\instance.cpp">
+      <Filter>Source Files\core\content</Filter>
+    </ClCompile>
+    <ClCompile Include="source\core\content\instance_creator.cpp">
+      <Filter>Source Files\core\content</Filter>
+    </ClCompile>
+    <ClCompile Include="source\core\content\item.cpp">
+      <Filter>Source Files\core\content</Filter>
+    </ClCompile>
+    <ClCompile Include="source\core\content\mappings.cpp">
+      <Filter>Source Files\core\content</Filter>
+    </ClCompile>
+    <ClCompile Include="source\core\content\project.cpp">
+      <Filter>Source Files\core\content</Filter>
+    </ClCompile>
+    <ClCompile Include="source\core\content\properties.cpp">
+      <Filter>Source Files\core\content</Filter>
+    </ClCompile>
+    <ClCompile Include="source\core\content\sprite.cpp">
+      <Filter>Source Files\core\content</Filter>
+    </ClCompile>
+    <ClCompile Include="source\core\animation\frame.cpp">
+      <Filter>Source Files\core\animation</Filter>
+    </ClCompile>
+    <ClCompile Include="source\core\animation\frame_set.cpp">
+      <Filter>Source Files\core\animation</Filter>
+    </ClCompile>
+    <ClCompile Include="source\core\animation\timeline.cpp">
+      <Filter>Source Files\core\animation</Filter>
+    </ClCompile>
+    <ClCompile Include="source\core\animation\trigger.cpp">
+      <Filter>Source Files\core\animation</Filter>
+    </ClCompile>
+    <ClCompile Include="source\core\2d\drawable.cpp">
+      <Filter>Source Files\core\2d</Filter>
+    </ClCompile>
+    <ClCompile Include="source\core\2d\layer.cpp">
+      <Filter>Source Files\core\2d</Filter>
+    </ClCompile>
+    <ClCompile Include="source\core\2d\node.cpp">
+      <Filter>Source Files\core\2d</Filter>
+    </ClCompile>
+    <ClCompile Include="source\core\2d\texture.cpp">
+      <Filter>Source Files\core\2d</Filter>
+    </ClCompile>
+    <ClCompile Include="source\app.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="source\program\commands\drag_command.cpp">
+      <Filter>Source Files\program\commands</Filter>
+    </ClCompile>
+    <ClCompile Include="source\program\commands\movement_command.cpp">
+      <Filter>Source Files\program\commands</Filter>
+    </ClCompile>
+    <ClCompile Include="source\program\commands\anchor_command.cpp">
+      <Filter>Source Files\program\commands</Filter>
+    </ClCompile>
+    <ClCompile Include="source\core\geometry\rectangle.cpp">
+      <Filter>Source Files\core\geometry</Filter>
+    </ClCompile>
+    <ClCompile Include="source\program\states\scene_state.cpp">
+      <Filter>Source Files\program\states</Filter>
+    </ClCompile>
+    <ClCompile Include="source\program\states\state.cpp">
+      <Filter>Source Files\program\states</Filter>
+    </ClCompile>
+    <ClCompile Include="source\core\content\environment.cpp">
+      <Filter>Source Files\core\content</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -196,5 +215,130 @@
     <Image Include="res\windy.bmp">
       <Filter>Resource Files</Filter>
     </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="include\core\number\digits.hpp">
+      <Filter>Header Files\core\number</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\number\uuid.hpp">
+      <Filter>Header Files\core\number</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\memory\mmap_allocator.hpp">
+      <Filter>Header Files\core\memory</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\memory\mmap_pool.hpp">
+      <Filter>Header Files\core\memory</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\image\mmap_image.hpp">
+      <Filter>Header Files\core\image</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\image\pixel_inserters.hpp">
+      <Filter>Header Files\core\image</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\filesystem\path.hpp">
+      <Filter>Header Files\core\filesystem</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\content\assets.hpp">
+      <Filter>Header Files\core\content</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\content\collection.hpp">
+      <Filter>Header Files\core\content</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\content\compositable.hpp">
+      <Filter>Header Files\core\content</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\content\composition.hpp">
+      <Filter>Header Files\core\content</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\content\container.hpp">
+      <Filter>Header Files\core\content</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\content\directory.hpp">
+      <Filter>Header Files\core\content</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\content\edition.hpp">
+      <Filter>Header Files\core\content</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\content\game.hpp">
+      <Filter>Header Files\core\content</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\content\graphicable.hpp">
+      <Filter>Header Files\core\content</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\content\group.hpp">
+      <Filter>Header Files\core\content</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\content\groupable.hpp">
+      <Filter>Header Files\core\content</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\content\instance.hpp">
+      <Filter>Header Files\core\content</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\content\instance_creator.hpp">
+      <Filter>Header Files\core\content</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\content\item.hpp">
+      <Filter>Header Files\core\content</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\content\mappings.hpp">
+      <Filter>Header Files\core\content</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\content\project.hpp">
+      <Filter>Header Files\core\content</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\content\properties.hpp">
+      <Filter>Header Files\core\content</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\content\sprite.hpp">
+      <Filter>Header Files\core\content</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\animation\frame.hpp">
+      <Filter>Header Files\core\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\animation\frame_set.hpp">
+      <Filter>Header Files\core\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\animation\timeline.hpp">
+      <Filter>Header Files\core\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\animation\trigger.hpp">
+      <Filter>Header Files\core\animation</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\2d\drawable.hpp">
+      <Filter>Header Files\core\2d</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\2d\layer.hpp">
+      <Filter>Header Files\core\2d</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\2d\node.hpp">
+      <Filter>Header Files\core\2d</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\2d\texture.hpp">
+      <Filter>Header Files\core\2d</Filter>
+    </ClInclude>
+    <ClInclude Include="include\app.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="include\program\commands\anchor_command.hpp">
+      <Filter>Header Files\program\commands</Filter>
+    </ClInclude>
+    <ClInclude Include="include\program\commands\drag_command.hpp">
+      <Filter>Header Files\program\commands</Filter>
+    </ClInclude>
+    <ClInclude Include="include\program\commands\movement_command.hpp">
+      <Filter>Header Files\program\commands</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\geometry\rectangle.hpp">
+      <Filter>Header Files\core\geometry</Filter>
+    </ClInclude>
+    <ClInclude Include="include\program\states\scene_state.hpp">
+      <Filter>Header Files\program\states</Filter>
+    </ClInclude>
+    <ClInclude Include="include\program\states\state.hpp">
+      <Filter>Header Files\program\states</Filter>
+    </ClInclude>
+    <ClInclude Include="include\core\content\environment.hpp">
+      <Filter>Header Files\core\content</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
